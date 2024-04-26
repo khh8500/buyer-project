@@ -1,0 +1,89 @@
+{{> layout/header}}
+
+<div class="container" style="margin-top: 5%; margin-bottom: 5%">
+    <!--    enctype="multipart/form-data"-->
+    <div class="row">
+        <!-- 이미지 -->
+        <div class="col-lg-4 mb-4 mb-lg-0">
+            <img src="" width="300" height="300"
+                 style="border-radius: 5%">
+        </div>
+
+        <!-- 상품 정보 입력 -->
+        <div class="col-lg-6 px-xl-10">
+
+            <form action="" method="post">
+                <input type="hidden" name="productId" value="product.id">
+
+                <div class="mb-3 mt-3">
+                    상 품 명 : <input name="name" type="text" class="form-control" value="product.name" disabled>
+                </div>
+                <div class="mb-3 mt-3">
+                    상품가격 : <input name="price" type="text" class="form-control" value="product.price" disabled>
+                </div>
+                <div class="mb-3 mt-3">
+                    <div>구매수량 : <span style="color: grey;">(재고 : product.qty)</span></div>
+                    <input name="qty" type="number" class="form-control" value="1">
+                </div>
+                <!--상품 정보 입력 끝-->
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+
+<br><br><br>
+<hr>
+<div style="color: blue; text-align: center; font-size: 24px;">
+    상품후기
+</div>
+
+<br>
+<!-- 댓글 -->
+<div class="card mt-3">
+    <!-- 댓글등록 -->
+    <div class="card-body">
+        <form action="/" method="post">
+                <textarea class="form-control" rows="2" name="comment"
+                          placeholder="상품 후기를 작성해주세요. 비방 및 욕설 댓글은 삭제됩니다."></textarea>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-outline-primary mt-1">후기등록</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 댓글목록 -->
+    <div class="card-footer">
+        <b>후기</b>
+    </div>
+    <div class="list-group">
+        <!-- 댓글아이템 -->
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+                <div class="px-1 me-1 bg-primary text-white rounded">cos</div>
+                <div>댓글</div>
+            </div>
+            <form action="" method="post">
+                <button class="btn">🗑</button>
+            </form>
+        </div>
+        <!-- 댓글아이템 -->
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+                <div class="px-1 me-1 bg-primary text-white rounded">ssar</div>
+                <div>댓글</div>
+            </div>
+            <form action="" method="post">
+                <button class="btn">🗑</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script src="/js/detail.js"></script>
+
+{{> layout/footer}}
