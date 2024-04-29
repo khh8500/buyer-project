@@ -17,8 +17,18 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
+    @GetMapping("/logout")
+    public String logout() {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    // 로그인하기
     @PostMapping("/login")
-    public String login() {
+    public String login(UserRequest.LoginDTO reqDTO) {
+        User sessionUser = userService.login(reqDTO);
+        System.out.println("reqDTO = " + reqDTO);
+        session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
 
@@ -27,6 +37,7 @@ public class UserController {
         return "user/login-form";
     }
 
+    // 회원가입하기
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO reqDTO) {
         userService.save(reqDTO.toEntity());

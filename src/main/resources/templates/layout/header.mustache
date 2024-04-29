@@ -82,7 +82,7 @@
             <!-- 오른쪽에 배치할 항목들 -->
             <ul class="navbar-nav ms-auto">
 
-
+                {{^sessionUser}}
                     <li class="nav-item"><a class="nav-link" href="/login-form">로그인</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="/join-form">회원가입</a>
@@ -91,11 +91,11 @@
                             <a href="">기업회원</a>
                         </div>
                     </li>
-
-
+                {{/sessionUser}}
+                {{#sessionUser}}
                     <li class="nav-item"><a class="nav-link" href="">회원정보수정</a></li>
-                    <li class="nav-item"><a class="nav-link" href="">로그아웃</a></li>
-
+                    <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+                {{/sessionUser}}
             </ul>
         </div>
     </div>
