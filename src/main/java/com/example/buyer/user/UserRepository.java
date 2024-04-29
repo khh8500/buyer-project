@@ -14,7 +14,7 @@ public class UserRepository {
 
     // 로그인하기
     public User findByUserIdAndPassword(UserRequest.LoginDTO reqDTO) {
-        Query query = em.createNativeQuery("select * from user_tb where userId=?, password=?", User.class);
+        Query query = em.createNativeQuery("select * from user_tb where userId=? and password=?", User.class);
         query.setParameter(1, reqDTO.getUserId());
         query.setParameter(2, reqDTO.getPassword());
 
