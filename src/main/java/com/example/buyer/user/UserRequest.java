@@ -8,13 +8,15 @@ public class UserRequest {
     public static class JoinDTO {
         private String userId;
         private String password;
-        private String email;
+        private String phone;
+        private String address;
 
         public User toEntity() {
             return User.builder()
                     .userId(userId)
                     .password(password)
-                    .email(email)
+                    .phone(phone)
+                    .address(address)
                     .build();
         }
     }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,10 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String email;
+    private String phone;
+
+    @Column(nullable = false)
+    private String address;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
@@ -37,11 +39,12 @@ public class User {
     private Timestamp createdAt;
 
     @Builder
-    public User(Integer id, String userId, String password, String email, Timestamp createdAt) {
+    public User(Integer id, String userId, String password, String phone, String address, Timestamp createdAt) {
         this.id = id;
         this.userId = userId;
         this.password = password;
-        this.email = email;
+        this.phone = phone;
+        this.address = address;
         this.createdAt = createdAt;
 
     }

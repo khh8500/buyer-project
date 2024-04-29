@@ -12,6 +12,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final EntityManager em;
 
+    // 회원가입하기
     @Transactional
     public User save (User user){
         em.persist(user);
