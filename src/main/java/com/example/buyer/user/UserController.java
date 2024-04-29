@@ -13,6 +13,16 @@ public class UserController {
     private final UserService userService;
     private final HttpSession session;
 
+    @PostMapping("/login")
+    public String login() {
+        return "redirect:/";
+    }
+
+    @GetMapping("/login-form")
+    public String loginForm() {
+        return "user/login-form";
+    }
+
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO reqDTO) {
         userService.save(reqDTO.toEntity());
@@ -23,5 +33,10 @@ public class UserController {
     @GetMapping("/join-form")
     public String joinForm() {
         return "user/join-form";
+    }
+
+    @GetMapping("/")
+    public String main() {
+        return "/index";
     }
 }
