@@ -16,7 +16,7 @@ public class OrderResponse {
         private String productName;
 
         // 주문 상품 수량
-        private Integer qty;
+        private Integer buyQty;
     }
 
 }

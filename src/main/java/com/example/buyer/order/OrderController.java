@@ -28,7 +28,7 @@ public class OrderController {
     // 주문 상세보기
     @GetMapping("/order/{id}")
     public String detail(){
-        return "order/order-form";
+        return "order/detail";
     }
 
     // 주문 목록보기

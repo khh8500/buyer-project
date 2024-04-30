@@ -26,6 +26,9 @@ public class Order {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @Column(nullable = false)
+    private Integer buyQty;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
