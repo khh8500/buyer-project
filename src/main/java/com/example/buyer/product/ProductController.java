@@ -27,7 +27,7 @@ public class ProductController {
         List<ProductResponse.ListDTO> productList = productService.findAll();
         request.setAttribute("productList", productList);
 
-        return "/product/list";
+        return "product/list";
     }
 
     @GetMapping("/")
