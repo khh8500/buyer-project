@@ -14,12 +14,12 @@ public class OrderRepository {
 
     // 상품 재고 감소
     @Transactional
-    public void decreaseQty(String productId, int newQty) {
+    public void decreaseQty(String productId, int buyQty) {
 
-        Query query = em.createNativeQuery("update product_tb set qty = qty - ? where product_id = ?;");
+        Query query = em.createQuery("update Product p set p.qty = p.qty - :buyQty where p.id = :productId");
 
-            query.setParameter(1, newQty);
-            query.setParameter(2, productId);
+            query.setParameter("buyQty", buyQty);
+            query.setParameter("productId", productId);
 
             query.executeUpdate();
 
