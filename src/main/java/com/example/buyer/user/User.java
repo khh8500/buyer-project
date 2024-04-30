@@ -27,6 +27,9 @@ public class User {
     private String password;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String phone;
 
     @Column(nullable = false)
@@ -39,10 +42,11 @@ public class User {
     private Timestamp createdAt;
 
     @Builder
-    public User(Integer id, String userId, String password, String phone, String address, Timestamp createdAt) {
+    public User(Integer id, String userId, String password, String name, String phone, String address, Timestamp createdAt) {
         this.id = id;
         this.userId = userId;
         this.password = password;
+        this.name = name;
         this.phone = phone;
         this.address = address;
         this.createdAt = createdAt;

@@ -14,6 +14,7 @@ public class UserRequest {
     public static class JoinDTO {
         private String userId;
         private String password;
+        private String name;
         private String phone;
         private String address;
 
@@ -21,6 +22,7 @@ public class UserRequest {
             return User.builder()
                     .userId(userId)
                     .password(password)
+                    .name(name)
                     .phone(phone)
                     .address(address)
                     .build();
