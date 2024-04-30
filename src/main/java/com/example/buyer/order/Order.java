@@ -3,6 +3,7 @@ package com.example.buyer.order;
 import com.example.buyer.product.Product;
 import com.example.buyer.user.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,10 +27,18 @@ public class Order {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @Column(nullable = false)
+    @Column
     private Integer buyQty;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Builder
+    public Order(Integer id, User user, Product product, Integer buyQty, LocalDateTime createdAt) {
+        this.id = id;
+        this.user = user;
+        this.product = product;
+        this.buyQty = buyQty;
+        this.createdAt = createdAt;
+    }
 }

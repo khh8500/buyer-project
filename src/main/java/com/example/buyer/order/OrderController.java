@@ -15,8 +15,16 @@ public class OrderController {
 
     // 주문하기(구매하기)
     @PostMapping("/order")
-    public String order(){
-        return "redirect:/order/order-form";
+    public String order(OrderRequest.OrderDTO reqDTO){
+        orderService.order(reqDTO);
+        return "order/order-form";
+    }
+
+    // 주문하기(구매하기) 폼
+    @GetMapping("/order/order-form")
+    public String orderForm(){
+
+        return "/order/order-form";
     }
 
     // 주문 취소하기
@@ -25,11 +33,6 @@ public class OrderController {
         return "redirect:/";
     }
 
-    // 주문 상세보기
-    @GetMapping("/order/{id}")
-    public String detail(){
-        return "order/detail";
-    }
 
     // 주문 목록보기
     @GetMapping("/order/list")
