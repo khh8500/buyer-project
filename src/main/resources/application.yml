@@ -3,7 +3,7 @@ server:
     encoding:
       charset: utf-8
       force: true
-  port: 8080
+  port: 8090
 
 spring:
   mustache:
@@ -17,7 +17,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

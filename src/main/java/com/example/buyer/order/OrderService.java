@@ -1,5 +1,7 @@
 package com.example.buyer.order;
 
+import com.example.buyer.product.Product;
+import com.example.buyer.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,19 @@ public class OrderService {
     @Transactional
     public void order(OrderRequest.OrderDTO reqDTO) {
         orderRepository.order(reqDTO);
-    }
 
-    public void decreaseQty (){
-
+        if (reqDTO.getBuyQty() > 0) {
+            orderRepository.updateQty(reqDTO);
+        }
     }
+//    @Transactional
+//    public void order(OrderRequest.OrderDTO reqDTO) {
+//        orderRepository.order(reqDTO);
+//    }
+
+//    public User findUserById(OrderRequest.OrderDTO reqDTO) {
+//        User user = reqDTO.getUser();
+//        return orderRepository.findUserById(user.getId());
+//    }
+
 }

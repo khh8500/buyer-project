@@ -9,28 +9,41 @@ public class OrderRequest {
     // 주문하기(구매하기)
     @Data
     public static class OrderDTO {
-        // user
-//        private Integer userId;
-//        private String name;
-//        private String phone;
-//        private String address;
-        private User user;
+        //user
+        private Integer userId;
+        private String name;
+        private String phone;
+        private String address;
 
         // product
-//        private Integer productId;
-//        private String pName;
-//        private Integer price;
-//        private Integer qty;
-        private Product product;
+        private Integer productId;
+        private String pName;
+        private Integer price;
+        private Integer qty;
+
         // order
         private Integer buyQty;
 
-        public Order toEntity(Product product, User user){
-            return Order.builder()
-                    .user(user)
-                    .product(product)
-                    .buyQty(buyQty)
-                    .build();
         }
     }
-}
+
+//    @Data
+//    public static class OrderDTO {
+//        // user
+//        private User user;
+//
+//        // product
+//        private Product product;
+
+//        // order
+//        private Integer buyQty;
+//
+//        public Order toEntity(){
+//            return Order.builder()
+//                    .user(this.user)
+//                    .product(this.product)
+//                    .buyQty(this.buyQty)
+//                    .build();
+//        }
+//    }
+

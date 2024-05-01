@@ -1,5 +1,7 @@
 package com.example.buyer.order;
 
+import com.example.buyer.user.User;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,15 +18,21 @@ public class OrderController {
     // 주문하기(구매하기)
     @PostMapping("/order")
     public String order(OrderRequest.OrderDTO reqDTO){
+        System.out.println("!!!!!" + reqDTO);
         orderService.order(reqDTO);
+
         return "order/order-form";
     }
 
     // 주문하기(구매하기) 폼
     @GetMapping("/order/order-form")
-    public String orderForm(){
+    public String orderForm(HttpServletRequest request){
+        User sessionUser = (User) session.getAttribute("sessionUser");
 
-        return "/order/order-form";
+//        OrderRequest.OrderDTO orderDTO = new OrderRequest.OrderDTO();
+//        request.setAttribute("orderDTO", orderDTO);
+//        System.out.println(orderDTO);
+        return "order/order-form";
     }
 
     // 주문 취소하기
