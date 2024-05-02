@@ -14,17 +14,18 @@
                         <span class="text-primary">주문 상품</span>
                         <span class="badge bg-primary rounded-pill"></span>
                     </h4>
-
                     <!--  목록 리스트 1-->
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                                 <input style="font-weight: bold" type="text" class="form-control" id="pName"
-                                       name="pName" value="상품이름" readonly>
-                                <input type="text" class="form-control" id="buyQty" name="buyQty" value="3개"
+                                       name="pName" value="{{product.pName}}" readonly>
+                                <input type="text" class="form-control" id="buyQty" name="buyQty"
+                                       value="{{product.buyQty}}개"
                                        readonly>
                             </div>
-                            <input type="text" class="form-control" id="price" name="price" value="3000" readonly>
+                            <input type="text" class="form-control" id="price" name="price" value="{{product.price}}"
+                                   readonly>
                         </li>
                         <!--    목록 리스트 1-->
 
@@ -42,7 +43,7 @@
                         <!--  합계 -->
                         <li class="list-group-item d-flex justify-content-between">
                             <span>합계 (원)</span>
-                            <strong>50000</strong>
+                            <strong>{{product.price}}</strong>
                         </li>
                         <!--   합계 -->
                     </ul>
@@ -57,15 +58,15 @@
                             <div class="col-md-12">
                                 <div class="mb-3 mt-3 form-group">
                                     이름 <input id="userName" name="userName" type="text" class="form-control"
-                                              value="김하형">
+                                              value="{{user.name}}">
                                 </div>
                                 <div class="mb-3 mt-3 form-group">
                                     주소 <input id="address" name="address" type="text" class="form-control"
-                                              value="부산 부산 부산 ">
+                                              value="{{user.address}}">
                                 </div>
                                 <div class="mb-3 mt-3 form-group">
                                     전화번호 <input id="phone" name="phone" type="text" class="form-control"
-                                                value="01077777777">
+                                                value="{{user.phone}}">
                                 </div>
                             </div>
 

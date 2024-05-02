@@ -5,7 +5,7 @@ import lombok.Data;
 public class OrderResponse {
 
     @Data
-    public static class OrderDTO {
+    public static class SaveDTO {
         // 유저
         private Integer userId;
         private String phone;
@@ -15,7 +15,7 @@ public class OrderResponse {
         private Integer productId;
         private String productName;
 
-        // 주문 상품 수량
+        // 주문 수량
         private Integer buyQty;
     }
 
