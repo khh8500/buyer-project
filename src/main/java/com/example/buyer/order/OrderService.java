@@ -16,18 +16,18 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     // 주문하기(구매하기)
-//    @Transactional
-//    public void save(OrderRequest.SaveDTO reqDTO) {
-//        // 주문 수량이 0 초과인 경우에만 주문 처리
-//        if (reqDTO.getBuyQty() > 0) {
-//            orderRepository.save(reqDTO);
-//        }
-//        // 유저 데이터 가져오기
-//        OrderResponse.SaveDTO saveDTO = findUserById(reqDTO.getUser().getId());
-//        // 상품의 재고 업데이트
-//        orderRepository.updateQty(reqDTO.getBuyQty(), reqDTO.getProduct().getId());
-//
-//    }
+    @Transactional
+    public void save(OrderRequest.SaveDTO reqDTO) {
+        // 주문 수량이 0 초과인 경우에만 주문 처리
+        if (reqDTO.getBuyQty() > 0) {
+            orderRepository.save(reqDTO);
+        }
+        // 유저 데이터 가져오기
+
+        // 상품의 재고 업데이트
+        orderRepository.updateQty(reqDTO.getBuyQty(), reqDTO.getProduct().getId());
+
+    }
 
     public User findUserById(Integer userId) {
         User user = orderRepository.findUserById(userId);

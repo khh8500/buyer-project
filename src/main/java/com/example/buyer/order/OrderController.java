@@ -21,19 +21,19 @@ public class OrderController {
     private final ProductRequest productRequest;
 
     // 주문하기(구매하기)   //save
-//    @PostMapping("/order")
-//    public String save(OrderRequest.SaveDTO reqDTO, HttpSession session){
-//        User sessionUser = (User) session.getAttribute("sessionUser");
-//        System.out.println("!!!!!" + reqDTO);
-//
-//        // 주문 정보에 사용자 ID 설정
-//        orderService.findUserById(sessionUser.getId());
-//
-//        // 주문 서비스 호출
-//        orderService.save(reqDTO);
-//
-//        return "redirect:/order/order-form";
-//    }
+    @PostMapping("/order")
+    public String save(OrderRequest.SaveDTO reqDTO, HttpSession session){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        System.out.println("!!!!!" + reqDTO);
+
+        // 주문 정보에 사용자 ID 설정
+        orderService.findUserById(sessionUser.getId());
+
+        // 주문 서비스 호출
+        orderService.save(reqDTO);
+
+        return "redirect:/order/order-form";
+    }
 
     // 주문하기(구매하기) 폼
     @GetMapping("/order/order-form")
