@@ -5,6 +5,20 @@ import lombok.Data;
 public class OrderResponse {
 
     @Data
+    public static class ListDTO {
+        private Integer id;
+        private String name;
+        private Integer price;
+
+        public ListDTO(Order order) {
+            this.id = order.getId();
+            this.name = order.getProduct().getName();
+            this.price = order.getProduct().getPrice();
+        }
+
+    }
+
+    @Data
     public static class SaveDTO {
         // 유저
         private Integer userId;

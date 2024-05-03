@@ -1,7 +1,5 @@
 package com.example.buyer.order;
 
-import com.example.buyer.product.Product;
-import com.example.buyer.product.ProductRequest;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -18,37 +16,34 @@ public class OrderController {
 
     private final OrderService orderService;
     private final HttpSession session;
-    private final ProductRequest productRequest;
 
     // 주문하기(구매하기)   //save
     @PostMapping("/order")
-    public String save(OrderRequest.SaveDTO reqDTO, HttpSession session){
+    public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpSession session){
+        // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
         System.out.println("!!!!!" + reqDTO);
 
         // 주문 정보에 사용자 ID 설정
-        orderService.findUserById(sessionUser.getId());
+        //orderService.findUserById(sessionUser.getId());
 
         // 주문 서비스 호출
         orderService.save(reqDTO);
-
+        System.out.println("????" + reqDTO);
         return "redirect:/order/order-form";
     }
 
     // 주문하기(구매하기) 폼
     @GetMapping("/order/order-form")
-    public String orderForm(HttpServletRequest request, ProductRequest.ProductDTO reqDTO){
+    public String orderForm(OrderRequest.SaveDTO reqDTO, HttpServletRequest request){
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // 주문 서비스를 통해 사용자 정보 가져오기
-        User user = orderService.findUserById(sessionUser.getId());
+        //User user = orderService.findUserById(sessionUser.getId());
+        orderService.save(reqDTO);
 
         // 주문 정보를 모델에 담아서 주문 폼 페이지로 전달
-        request.setAttribute("user", user);
-
-        // 주문 상품 정보 가져오기
-        request.setAttribute("product", reqDTO);
-
+        request.setAttribute("reqDTO", reqDTO);
         return "order/order-form";
     }
 
@@ -66,7 +61,7 @@ public class OrderController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // 주문 목록 가져오기
-        List<Order> orderList = orderService.getOrderListByUserId(sessionUser.getId());
+        List<OrderResponse.ListDTO> orderList = orderService.getOrderListByUserId(sessionUser.getId());
         System.out.println("orderList = " + orderList);
 
         // 모델에 주문 목록 추가

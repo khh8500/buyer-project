@@ -29,21 +29,8 @@ public class OrderRepository {
 
     }
 
-    // 주문하기(구매하기)
-//    @Transactional
-//    public void order(OrderRequest.OrderDTO reqDTO) {
-//        Query query = em.createNativeQuery(
-//                "insert into order_tb (user_id, product_id, buy_qty, created_at) values (?,?,?,now())"
-//        );
-//
-//        query.setParameter(1, reqDTO.getUserId());
-//        query.setParameter(2, reqDTO.getProductId());
-//        query.setParameter(3, reqDTO.getBuyQty());
-//
-//        query.executeUpdate();
-//    }
 
-    //상품 재고 감소
+    // 상품 재고 감소
     public void updateQty(Integer buyQty, Integer productId) {
 
         String q = """
@@ -70,28 +57,11 @@ public class OrderRepository {
         return user;
     }
 
-    // 주문 정보 가져오기
-//    public Product getOrderProduct(ProductRequest.ProductDTO reqDTO) {
-//
-//        String q = """
-//                select p from Product p
-//                where p.id = :id
-//                """;
-//        Query query = em.createQuery(q, Product.class);
-//
-//        query.setParameter("id", reqDTO.getProductId());
-//
-//        Product product = (Product) query.getSingleResult();
-//
-//        return product;
-//    }
-
-
     // 주문 목록 보기
     public List<Order> getOrderListByUserId(Integer userId) {
 
         String q = """
-                select o from Order o where o.user.id = :userId
+                select o from Order o join fetch o.user u where u.id = :userId
                 """;
         Query query = em.createQuery(q, Order.class);
 

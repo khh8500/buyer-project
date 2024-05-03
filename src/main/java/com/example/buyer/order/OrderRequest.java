@@ -20,9 +20,9 @@ public class OrderRequest {
 
         public Order toEntity() {
             return Order.builder()
-                    .user(this.user)
-                    .product(this.product)
-                    .buyQty(this.buyQty)
+                    .user(user)
+                    .product(product)
+                    .buyQty(buyQty)
                     .build();
         }
     }
