@@ -9,43 +9,35 @@ public class OrderRequest {
     // 주문하기(구매하기)
     @Data
     public static class SaveDTO {
-        // user
-        private User user;
-
-        // product
-        private Product product;
-
-        // order
+        private Integer productId;
+        private String name; // 안받아도 됐음
+        private Integer price; // 안받아도 됐음
         private Integer buyQty;
-
-        public Order toEntity() {
-            return Order.builder()
-                    .user(user)
-                    .product(product)
-                    .buyQty(buyQty)
-                    .build();
-        }
     }
 
 }
 
-    // 주문하기(구매하기)
+// 주문하기(구매하기)
 //    @Data
-//    public static class OrderDTO {
-//        //user
-//        private Integer userId;
-//        private String name;
-//        private String phone;
-//        private String address;
+//    public static class SaveDTO {
+//        // user
+//        private User user;
 //
 //        // product
-//        private Integer productId;
-//        private String pName;
-//        private Integer price;
-//        private Integer qty;
+//        private Product product;
 //
 //        // order
 //        private Integer buyQty;
 //
+//        public Order toEntity() {
+//            return Order.builder()
+//                    .user(user)
+//                    .product(product)
+//                    .buyQty(buyQty)
+//                    .build();
 //        }
+//    }
+
+
+
 

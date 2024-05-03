@@ -20,15 +20,28 @@ public class OrderRepository {
     private final EntityManager em;
 
     //주문하기(구매하기)
-    public void save(OrderRequest.SaveDTO reqDTO) {
-        // 주문 엔티티 생성
-        Order order = reqDTO.toEntity();
+//    public void save(OrderRequest.SaveDTO reqDTO) {
+//        // 주문 엔티티 생성
+//        Order order = reqDTO.toEntity();
+//
+//        // 엔티티를 영속화하여 데이터베이스에 저장
+//        em.persist(order);
+//
+//    }
 
-        // 엔티티를 영속화하여 데이터베이스에 저장
-        em.persist(order);
+    // 주문하기(구매하기)
+    public void saveOrder(OrderRequest.SaveDTO reqDTO, int sessionUserId) {
+        String q = """
+                insert into order_tb (user_id, product_id, buy_qty, created_at) values (?,?,?,now())
+                """;
+        Query query = em.createNativeQuery(q);
 
+        query.setParameter(1, sessionUserId);
+        query.setParameter(2, reqDTO.getProductId());
+        query.setParameter(3, reqDTO.getBuyQty());
+
+        query.executeUpdate();
     }
-
 
     // 상품 재고 감소
     public void updateQty(Integer buyQty, Integer productId) {
