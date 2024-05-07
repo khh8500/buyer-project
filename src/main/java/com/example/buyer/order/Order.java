@@ -37,11 +37,12 @@ public class Order {
     private LocalDateTime createdAt;
 
     @Builder
-    public Order(Integer id, User user, Product product, Integer buyQty, LocalDateTime createdAt) {
+    public Order(Integer id, User user, Product product, Integer buyQty, String status, LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.product = product;
         this.buyQty = buyQty;
+        this.status = status;
         this.createdAt = createdAt;
     }
 }

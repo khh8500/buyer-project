@@ -30,27 +30,29 @@ public class OrderRepository {
 //    }
 
     // 구매 취소하기
-    public void orderCancel(OrderRequest.CancelDTO reqDTO, int sessionUserId) {
+    public void orderCancel(OrderRequest.CancelDTO reqDTO) {
         String q = """
-                update Order o set o.status=:newStatus where o.id=:orderId
+                update Order o
+                set o.product.qty = o.product.qty + o.buyQty
+                where o.status = '취소완료'
                 """;
 
-//        Query query = em.createQuery(q);
-//        query.setParameter("newStatus", newStatus);
-//        query.setParameter("orderId", sessionUserId);
-//        query.executeUpdate();
+        Query query = em.createQuery(q);
+
+        query.executeUpdate();
     }
 
     // 주문하기(구매하기)
     public void saveOrder(OrderRequest.SaveDTO reqDTO, int sessionUserId) {
         String q = """
-                insert into order_tb (user_id, product_id, buy_qty, created_at) values (?,?,?,now())
+                insert into order_tb (user_id, product_id, buy_qty, status, created_at) values (?,?,?,?,now())
                 """;
         Query query = em.createNativeQuery(q);
 
         query.setParameter(1, sessionUserId);
         query.setParameter(2, reqDTO.getProductId());
         query.setParameter(3, reqDTO.getBuyQty());
+        query.setParameter(4, reqDTO.getStatus());
 
         query.executeUpdate();
     }

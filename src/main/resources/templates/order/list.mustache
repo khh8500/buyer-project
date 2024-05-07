@@ -18,10 +18,11 @@
         <thead>
         <tr>
             <th class="center-align col-1">No</th>
-            <th class="center-align col-3">사진</th>
-            <th class="center-align col-4">상품명</th>
+            <th class="center-align col-2">사진</th>
+            <th class="center-align col-3">상품명</th>
             <th class="center-align col-2">상품가격</th>
-            <th class="center-align col-2">상세보기</th>
+            <th class="center-align col-2">구매수량</th>
+            <th class="center-align col-2">현재상태</th>
         </tr>
         </thead>
         <!--        목록 끝-->
@@ -36,12 +37,14 @@
                 </td>
                 <td>{{name}}</td>
                 <td class="price">{{price}}</td>
+                <td class="buyQty">{{buyQty}}</td>
+                <td>{{status}}</td>
                 <td>
-                    <div class="new-create-button">
-                        <form action="/product/1">
-                            <button type="submit" class="btn btn-outline-primary">상세보기</button>
-                        </form>
-                    </div>
+                    <!-- 주문 취소 버튼 -->
+                    <form action="/order/cancel" method="post">
+                        <input type="hidden" name="orderId" value="{{id}}">
+                        <button type="submit" class="btn btn-danger">취소</button>
+                    </form>
                 </td>
             </tr>
         {{/orderList}}

@@ -19,6 +19,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
+    // 구매 취소하기
+    @Transactional
+    public void orderCancel(OrderRequest.CancelDTO reqDTO, User sessionUser){
+
+        orderRepository.orderCancel(reqDTO);
+    }
+
     // 구매하기
     @Transactional
     public boolean saveOrder(OrderRequest.SaveDTO reqDTO, User sessionUser) {
@@ -29,6 +36,8 @@ public class OrderService {
             return false;
         }
 
+        // 구매 완료 시 상태를 '구매완료"
+         reqDTO.setStatus("구매완료");
         // 구매 내역 저장
         orderRepository.saveOrder(reqDTO, sessionUser.getId());
         // 상품 재고 업데이트

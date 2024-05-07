@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -16,6 +17,15 @@ public class OrderController {
 
     private final OrderService orderService;
     private final HttpSession session;
+
+    // 구매 취소하기
+    @PostMapping("/order/cancel")
+    public String orderCancel(OrderRequest.CancelDTO reqDTO, HttpSession session){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        orderService.orderCancel(reqDTO, sessionUser);
+
+        return "redirect:/order/list";
+    }
 
     // 주문하기(구매하기)   //save
     @PostMapping("/order")
@@ -29,22 +39,22 @@ public class OrderController {
 //
 //        // 주문 서비스 호출
         orderService.saveOrder(reqDTO, sessionUser);
-//        System.out.println("????" + reqDTO);
+        System.out.println("????" + reqDTO);
         return "redirect:/order/list";
     }
 
-    // 주문하기(구매하기) 폼
-    @GetMapping("/order/order-form")
-    public String orderForm(HttpServletRequest request){
-        User sessionUser = (User) session.getAttribute("sessionUser");
-
-        // 새로운 주문 정보 생성
-        OrderRequest.SaveDTO reqDTO = new OrderRequest.SaveDTO();
-
-        // 주문 정보를 모델에 담아서 주문 폼 페이지로 전달
-        request.setAttribute("reqDTO", reqDTO);
-        return "order/order-form";
-    }
+//    // 주문하기(구매하기) 폼
+//    @GetMapping("/order/order-form")
+//    public String orderForm(HttpServletRequest request){
+//        User sessionUser = (User) session.getAttribute("sessionUser");
+//
+//        // 새로운 주문 정보 생성
+//        OrderRequest.SaveDTO reqDTO = new OrderRequest.SaveDTO();
+//
+//        // 주문 정보를 모델에 담아서 주문 폼 페이지로 전달
+//        request.setAttribute("reqDTO", reqDTO);
+//        return "order/order-form";
+//    }
 
     // 주문 목록보기
     @GetMapping("/order/list")
