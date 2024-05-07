@@ -30,6 +30,9 @@ public class Order {
     @Column(nullable = false)
     private Integer buyQty;
 
+    @Column
+    private String status;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

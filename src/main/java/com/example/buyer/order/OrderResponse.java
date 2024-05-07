@@ -9,11 +9,13 @@ public class OrderResponse {
         private Integer id;
         private String name;
         private Integer price;
+        private String pic;
 
         public ListDTO(Order order) {
             this.id = order.getId();
             this.name = order.getProduct().getName();
             this.price = order.getProduct().getPrice();
+            this.pic = order.getProduct().getPic();
         }
 
     }

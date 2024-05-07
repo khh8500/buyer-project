@@ -6,6 +6,13 @@ import lombok.Data;
 
 public class OrderRequest {
 
+    // 구매 취소하기
+    public static class CancelDTO {
+        private Integer productId;
+        private Integer buyQty;
+        private String status;
+    }
+
     // 주문하기(구매하기)
     @Data
     public static class SaveDTO {

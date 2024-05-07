@@ -29,6 +29,18 @@ public class OrderRepository {
 //
 //    }
 
+    // 구매 취소하기
+    public void orderCancel(OrderRequest.CancelDTO reqDTO, int sessionUserId) {
+        String q = """
+                update Order o set o.status=:newStatus where o.id=:orderId
+                """;
+
+//        Query query = em.createQuery(q);
+//        query.setParameter("newStatus", newStatus);
+//        query.setParameter("orderId", sessionUserId);
+//        query.executeUpdate();
+    }
+
     // 주문하기(구매하기)
     public void saveOrder(OrderRequest.SaveDTO reqDTO, int sessionUserId) {
         String q = """

@@ -29,6 +29,9 @@ public class Product {
     @Column(nullable = false)
     private Integer qty;
 
+    @Column
+    private String pic;
+
     @OneToMany(mappedBy = "product")
     private List<Order> orders = new ArrayList<>();
 
@@ -36,8 +39,9 @@ public class Product {
     private LocalDateTime createdAt;
 
     @Builder
-    public Product(Integer id, String name, Integer price, Integer qty, LocalDateTime createdAt) {
+    public Product(Integer id, String pic, String name, Integer price, Integer qty, LocalDateTime createdAt) {
         this.id = id;
+        this.pic = pic;
         this.name = name;
         this.price = price;
         this.qty = qty;

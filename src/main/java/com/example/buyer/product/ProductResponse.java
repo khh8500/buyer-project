@@ -10,12 +10,15 @@ public class ProductResponse {
         private Integer price;
         private Integer qty;
         private Integer id;
+        private String pic;
 
         public DetailDTO(Product product) {
             this.name = product.getName();
             this.price = product.getPrice();
             this.qty = product.getQty();
             this.id = product.getId();
+            this.pic = product.getPic();
+
         }
     }
 
@@ -25,12 +28,16 @@ public class ProductResponse {
         private Integer price;
         private Integer qty;
         private Integer id;
+        private String pic;
+
 
         public ListDTO(Product product) {
             this.name = product.getName();
             this.price = product.getPrice();
             this.qty = product.getQty();
             this.id = product.getId();
+            this.pic = product.getPic();
+
         }
     }
 }
