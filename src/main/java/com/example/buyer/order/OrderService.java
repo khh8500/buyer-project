@@ -17,10 +17,24 @@ import java.util.List;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
+    // 구매하기
     @Transactional
-    public void saveOrder(OrderRequest.SaveDTO reqDTO, User sessionUser) {
+    public boolean saveOrder(OrderRequest.SaveDTO reqDTO, User sessionUser) {
+        // 상품 재고 확인
+        Product product = productRepository.findById(reqDTO.getProductId());
+        if (product == null || product.getQty() < reqDTO.getBuyQty()) {
+            // 상품이 없거나 재고가 충분하지 않은 경우
+            return false;
+        }
+
+        // 구매 내역 저장
         orderRepository.saveOrder(reqDTO, sessionUser.getId());
+        // 상품 재고 업데이트
+        orderRepository.updateQty(reqDTO.getBuyQty(), reqDTO.getProductId());
+
+        return true;
     }
 
     public List<OrderResponse.ListDTO> getOrderListByUserId(Integer userId) {

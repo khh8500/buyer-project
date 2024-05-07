@@ -1,9 +1,11 @@
 server:
+  port: 8090
   servlet:
     encoding:
       charset: utf-8
       force: true
-  port: 8090
+    session:
+      tracking-modes: cookie
 
 spring:
   mustache:
