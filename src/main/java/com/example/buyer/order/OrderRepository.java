@@ -1,14 +1,9 @@
 package com.example.buyer.order;
 
-import com.example.buyer.product.Product;
-import com.example.buyer.product.ProductRequest;
 import com.example.buyer.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

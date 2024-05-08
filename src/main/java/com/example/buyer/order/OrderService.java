@@ -2,14 +2,10 @@ package com.example.buyer.order;
 
 import com.example.buyer.product.Product;
 import com.example.buyer.product.ProductRepository;
-import com.example.buyer.product.ProductRequest;
-import com.example.buyer.product.ProductResponse;
 import com.example.buyer.user.User;
-import com.example.buyer.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

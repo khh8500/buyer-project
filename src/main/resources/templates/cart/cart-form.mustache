@@ -1,0 +1,129 @@
+{{> layout/header}}
+
+<style>
+    .offer-table th, .offer-table td {
+        text-align: center;
+        vertical-align: middle; /* 셀 내용을 수직 가운데 정렬 */
+    }
+
+    .summary-list {
+        border: 3px solid #ddd; /* 두꺼운 테두리 선 */
+        padding: 10px; /* 내부 여백 */
+        background-color: white; /* 배경색 */
+    }
+
+    .custom-width {
+        width: 40%;
+        margin-left: 35%;
+    }
+
+    /*체크 박스 크기 늘리기 */
+    .item-checkbox {
+        transform: scale(1.8);
+        margin: 10px;
+    }
+
+
+</style>
+
+<div class="container">
+    <table class="table table-hover offer-table scroll" style="text-align: center; border-top:2px solid #ddd">
+        <br>
+        <h2>장바구니</h2>
+        <br>
+
+        <!--        목록 -->
+        <thead>
+        <tr>
+            <th class="center-align col-1">
+                <input type="checkbox" id="checkAll" name="checkAll" class="item-checkbox">
+            </th>
+            <th class="center-align col-2">사진</th>
+            <th class="center-align col-3">상품명</th>
+            <th class="center-align col-2">상품가격</th>
+            <th class="center-align col-2">구매수량</th>
+            <th class="center-align col-2"></th>
+        </tr>
+        </thead>
+        <!--        목록 끝-->
+
+        <!--        상품 테이블-->
+
+        <tbody>
+
+        <style>
+            .notVisible {
+                visibility: hidden;
+            }
+        </style>
+
+
+            <tr class="offer-table my-offer-list" id="cart-id">
+                <td>
+                    <div class="notVisible"></div>
+                    <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
+                </td>
+                <td>
+                    <img src="http://localhost:8090/upload/{{imgFileName}}" width="100"
+                         height="100" style="border-radius: 5%">
+                </td>
+                <td>pName</td>
+                <td class="price">price</td>
+                <td class="buyQty">
+                    <input id="cart-qty-id" name="buyQty" type="number" class="form-control custom-width buyQty-change"
+                           value="buyQty" style="margin-bottom: 3%;">
+                </td>
+                <td>
+
+                    <div class="new-create-button">
+                        <form action="" method="post">
+                            <button type="submit" class="btn btn-outline-danger">삭제</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+
+        <!--        상품 테이블 끝-->
+
+    </table>
+
+    <br>
+
+    <!-- 내가 담은 목록 -->
+    <div class="summary-list" style="width: 30%;">
+        <!-- 목록 리스트 1-->
+        <ul class="list-group mb-3">
+            <!-- 합계와 구매하기 버튼을 포함하는 항목 -->
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="flex-fill">
+                    <span style="padding-right: 40px;">합계 (원)</span>
+                    <strong class="sum">0</strong>
+                </div>
+                <form action="" method="get">
+
+                        <input type="hidden" name="cartId" value="">
+                        <div class="notVisible"></div>
+                        <input type="hidden" name="buyQty" value="">
+
+                    <button type="submit" class="btn btn-primary">구매하기</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+    <!-- 내가 담은 목록 끝 -->
+
+
+</div>
+
+
+<div style="margin-bottom: 15%"></div>
+
+
+<script src="/js/sum-calculate.js"></script>
+<script src="/js/list.js"></script>
+<script src="/js/check-all.js"></script>
+
+
+{{> layout/footer}}
