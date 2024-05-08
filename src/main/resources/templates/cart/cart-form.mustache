@@ -58,32 +58,53 @@
         </style>
 
 
-            <tr class="offer-table my-offer-list" id="cart-id">
-                <td>
-                    <div class="notVisible"></div>
-                    <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
-                </td>
-                <td>
-                    <img src="http://localhost:8090/upload/{{imgFileName}}" width="100"
-                         height="100" style="border-radius: 5%">
-                </td>
-                <td>pName</td>
-                <td class="price">price</td>
-                <td class="buyQty">
-                    <input id="cart-qty-id" name="buyQty" type="number" class="form-control custom-width buyQty-change"
-                           value="buyQty" style="margin-bottom: 3%;">
-                </td>
-                <td>
+        <tr class="offer-table my-offer-list" id="cart-id">
+            <td>
+                <div class="notVisible"></div>
+                <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
+            </td>
+            <td>
+                <img src="http://localhost:8090/upload/imgFileName" width="100"
+                     height="100" style="border-radius: 5%">
+            </td>
+            <td>pName</td>
+            <td class="price">price</td>
+            <td class="buyQty">
+                <input id="cart-qty-id" name="buyQty" type="number" class="form-control custom-width buyQty-change"
+                       value="buyQty" style="margin-bottom: 3%;">
+            </td>
+            <td>
 
-                    <div class="new-create-button">
-                        <form action="" method="post">
-                            <button type="submit" class="btn btn-outline-danger">삭제</button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
+                <div class="new-create-button">
+                    <form action="" method="post">
+                        <button type="submit" class="btn btn-outline-danger">삭제</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
 
         </tbody>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // 전체 선택/해제 체크박스 요소
+                var checkAllCheckbox = document.getElementById("checkAll");
+
+                // 전체 선택/해제 체크박스 클릭 이벤트
+                checkAllCheckbox.addEventListener("click", function () {
+                    // 체크박스 상태 가져오기
+                    var isChecked = checkAllCheckbox.checked;
+
+                    // 모든 아이템 체크박스 요소 가져오기
+                    var itemCheckboxes = document.querySelectorAll(".item-checkbox");
+
+                    // 모든 아이템 체크박스의 상태 변경
+                    itemCheckboxes.forEach(function (checkbox) {
+                        checkbox.checked = isChecked;
+                    });
+                });
+            });
+        </script>
 
         <!--        상품 테이블 끝-->
 
@@ -103,9 +124,9 @@
                 </div>
                 <form action="" method="get">
 
-                        <input type="hidden" name="cartId" value="">
-                        <div class="notVisible"></div>
-                        <input type="hidden" name="buyQty" value="">
+                    <input type="hidden" name="cartId" value="">
+                    <div class="notVisible"></div>
+                    <input type="hidden" name="buyQty" value="">
 
                     <button type="submit" class="btn btn-primary">구매하기</button>
                 </form>
