@@ -6,8 +6,10 @@ import com.example.buyer.product.ProductRequest;
 import com.example.buyer.product.ProductResponse;
 import com.example.buyer.user.User;
 import com.example.buyer.user.UserRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,12 +20,21 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final EntityManager em;
 
     // 구매 취소하기
     @Transactional
-    public void orderCancel(OrderRequest.CancelDTO reqDTO, User sessionUser){
+    public void orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId){
 
-        orderRepository.orderCancel(reqDTO);
+        Order order = em.find(Order.class, orderId);
+        if (order.getStatus().equals("취소완료")){
+            return;
+        }
+        // 구매 취소
+        orderRepository.orderCancel(reqDTO, orderId);
+        // 구매 상태 업데이트
+        orderRepository.updateOrderStatus(orderId, "취소완료");
+
     }
 
     // 구매하기

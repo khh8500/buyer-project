@@ -29,15 +29,35 @@ public class OrderRepository {
 //
 //    }
 
-    // 구매 취소하기
-    public void orderCancel(OrderRequest.CancelDTO reqDTO) {
+    // 구매 상태 업데이트
+    public void updateOrderStatus(Integer orderId, String status) {
+        // 주문 상태 업데이트 쿼리
         String q = """
-                update Order o
-                set o.product.qty = o.product.qty + o.buyQty
-                where o.status = '취소완료'
+                UPDATE Order o
+                SET o.status = :status
+                WHERE o.id = :orderId
+                """;
+        Query query = em.createQuery(q);
+
+        query.setParameter("orderId", orderId);
+        query.setParameter("status", status);
+
+        query.executeUpdate();
+    }
+
+    // 구매 취소하기
+    public void orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId) {
+
+        String q = """
+                update product_tb p
+                join order_tb o on p.id = o.product_id
+                set p.qty = p.qty + o.buy_qty
+                where o.id = ?
                 """;
 
-        Query query = em.createQuery(q);
+        Query query = em.createNativeQuery(q);
+
+        query.setParameter(1, orderId);
 
         query.executeUpdate();
     }

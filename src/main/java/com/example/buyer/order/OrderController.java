@@ -20,9 +20,9 @@ public class OrderController {
 
     // 구매 취소하기
     @PostMapping("/order/cancel")
-    public String orderCancel(OrderRequest.CancelDTO reqDTO, HttpSession session){
-        User sessionUser = (User) session.getAttribute("sessionUser");
-        orderService.orderCancel(reqDTO, sessionUser);
+    public String orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId){
+
+        orderService.orderCancel(reqDTO, orderId);
 
         return "redirect:/order/list";
     }
