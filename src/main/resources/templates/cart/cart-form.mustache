@@ -57,50 +57,63 @@
             }
         </style>
 
+        {{#cartList}}
+            <tr class="offer-table my-offer-list" id="cart-id">
+                <td>
+                    <div class="notVisible"></div>
+                    <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
+                </td>
+                <td>
+                    <img src="http://localhost:8090/upload/imgFileName" width="100"
+                         height="100" style="border-radius: 5%">
+                </td>
+                <td>{{product.name}}</td>
+                <td class="price">{{product.price}}</td>
+                <td class="buyQty">
+                    <input id="cart-qty-id" name="buyQty" type="number" class="form-control custom-width buyQty-change"
+                           value="{{buyQty}}" style="margin-bottom: 3%;">
+                </td>
+                <td>
 
-        <tr class="offer-table my-offer-list" id="cart-id">
-            <td>
-                <div class="notVisible"></div>
-                <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
-            </td>
-            <td>
-                <img src="http://localhost:8090/upload/imgFileName" width="100"
-                     height="100" style="border-radius: 5%">
-            </td>
-            <td>pName</td>
-            <td class="price">{{reqDTO.price}}</td>
-            <td class="buyQty">
-                <input id="cart-qty-id" name="buyQty" type="number" class="form-control custom-width buyQty-change"
-                       value="{{reqDTO.buyQty}}" style="margin-bottom: 3%;">
-            </td>
-            <td>
-
-                <div class="new-create-button">
-                    <form action="" method="post">
-                        <button type="submit" class="btn btn-outline-danger">삭제</button>
-                    </form>
-                </div>
-            </td>
-        </tr>
-
+                    <div class="new-create-button">
+                        <form action="" method="post">
+                            <button type="submit" class="btn btn-outline-danger">삭제</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        {{/cartList}}
         </tbody>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
+
                 // 전체 선택/해제 체크박스 요소
-                var checkAllCheckbox = document.getElementById("checkAll");
+                let checkAllCheckbox = document.getElementById("checkAll");
 
                 // 전체 선택/해제 체크박스 클릭 이벤트
                 checkAllCheckbox.addEventListener("click", function () {
                     // 체크박스 상태 가져오기
-                    var isChecked = checkAllCheckbox.checked;
+                    let isChecked = checkAllCheckbox.checked;
 
                     // 모든 아이템 체크박스 요소 가져오기
-                    var itemCheckboxes = document.querySelectorAll(".item-checkbox");
+                    let itemCheckboxes = document.querySelectorAll(".item-checkbox");
 
                     // 모든 아이템 체크박스의 상태 변경
                     itemCheckboxes.forEach(function (checkbox) {
                         checkbox.checked = isChecked;
+                    });
+
+                    // 합계 계산
+                    calculateTotalSum();
+                });
+
+                // 개별 체크박스 클릭 이벤트
+                let itemCheckboxes = document.querySelectorAll(".item-checkbox");
+                itemCheckboxes.forEach(function (checkbox) {
+                    checkbox.addEventListener("click", function () {
+                        // 합계 다시 계산
+                        calculateTotalSum();
                     });
                 });
             });
@@ -120,8 +133,26 @@
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div class="flex-fill">
                     <span style="padding-right: 40px;">합계 (원)</span>
-                    <strong class="sum">0</strong>
+                    <strong id="totalSum" class="sum">0</strong>
                 </div>
+                <script>
+                    function calculateTotalSum() {
+                        let sum = 0;
+
+                        // 모든 체크된 상품의 가격 합산
+                        let checkedItems = document.querySelectorAll('.item-checkbox:checked');
+                        checkedItems.forEach(function (checkbox) {
+                            let row = checkbox.closest('.my-offer-list');
+                            let price = parseInt(row.querySelector('.price').innerText);
+                            let quantity = parseInt(row.querySelector('.buyQty input').value);
+                            sum += price * quantity;
+                        });
+
+                        // 총합을 합계를 표시하는 요소에 업데이트
+                        document.getElementById('totalSum').innerText = sum;
+                    }
+                </script>
+
                 <form action="" method="get">
 
                     <input type="hidden" name="cartId" value="">

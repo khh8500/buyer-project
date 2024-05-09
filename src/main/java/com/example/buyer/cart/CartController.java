@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class CartController {
@@ -17,22 +19,21 @@ public class CartController {
 
     // 장바구니 담기
     @PostMapping("/cart")
-    public String cart(CartRequest.SaveDTO reqDTO, HttpSession session){
+    public String cart(CartRequest.SaveDTO reqDTO){
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-
+        System.out.println("???reqDTO = " + reqDTO);
         cartService.saveCart(reqDTO, sessionUser);
 
-        return "cart/cart-form";
+        return "redirect:/cart-form";
     }
 
     @GetMapping("/cart-form")
-    public String cartForm(CartRequest.SaveDTO reqDTO, HttpServletRequest request){
+    public String cartForm(HttpServletRequest request){
 
-        User sessionUser = (User) session.getAttribute("sessionUser");
-
-        cartService.saveCart(reqDTO, sessionUser);
-        request.setAttribute("reqDTO", reqDTO);
+        List<CartResponse.SaveDTO> cartList = cartService.findAll();
+        System.out.println("cartList = " + cartList);
+        request.setAttribute("cartList", cartList);
 
         return "cart/cart-form";
     }

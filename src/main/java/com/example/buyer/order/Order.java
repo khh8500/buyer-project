@@ -2,16 +2,17 @@ package com.example.buyer.order;
 
 import com.example.buyer.product.Product;
 import com.example.buyer.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties({"product", "user"})
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "order_tb")
 @Entity
 public class Order {
@@ -45,4 +46,6 @@ public class Order {
         this.status = status;
         this.createdAt = createdAt;
     }
+
+
 }

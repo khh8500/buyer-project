@@ -5,6 +5,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CartService {
@@ -15,5 +17,12 @@ public class CartService {
     @Transactional
     public void saveCart(CartRequest.SaveDTO reqDTO, User sessionUser){
         cartRepository.saveCart(reqDTO, sessionUser.getId());
+        System.out.println("service reqDTO = " + reqDTO);
     }
+
+    // 장바구니 조회
+    public List<CartResponse.SaveDTO> findAll(){
+        return cartRepository.findAll();
+    }
+
 }

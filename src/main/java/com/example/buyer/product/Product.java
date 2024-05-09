@@ -1,10 +1,9 @@
 package com.example.buyer.product;
 
 import com.example.buyer.order.Order;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Table(name = "product_tb")
 @Entity
 public class Product {
@@ -32,6 +32,7 @@ public class Product {
     @Column
     private String pic;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<Order> orders = new ArrayList<>();
 
@@ -47,5 +48,6 @@ public class Product {
         this.qty = qty;
         this.createdAt = createdAt;
     }
+
 
 }
