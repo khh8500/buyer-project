@@ -30,26 +30,15 @@ public class CartRepository {
         query.executeUpdate();
     }
 
-//    public Cart findById(Integer id){
-//
-//        String q = """
-//                select c from Cart c where c.id=:id
-//                """;
-//
-//        Query query = em.createQuery(q, Cart.class);
-//        query.setParameter("id", id);
-//
-//        return (Cart) query.getSingleResult();
-//    }
-
     // 장바구니 조회
-    public List<CartResponse.SaveDTO> findAll(){
+    public List<CartResponse.SaveDTO> findByUserId(int sessionUserId){
 
         String q = """
-                select c from Cart c order by c.id desc
+                select c from Cart c where c.userId=:id order by c.id desc
                 """;
 
         Query query = em.createQuery(q, Cart.class);
+        query.setParameter("id", sessionUserId);
 
         return query.getResultList();
     }

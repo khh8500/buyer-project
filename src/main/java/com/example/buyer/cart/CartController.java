@@ -31,7 +31,8 @@ public class CartController {
     @GetMapping("/cart-form")
     public String cartForm(HttpServletRequest request){
 
-        List<CartResponse.SaveDTO> cartList = cartService.findAll();
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        List<CartResponse.SaveDTO> cartList = cartService.findAll(sessionUser.getId());
         System.out.println("cartList = " + cartList);
         request.setAttribute("cartList", cartList);
 
