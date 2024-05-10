@@ -1,6 +1,7 @@
 package com.example.buyer.cart;
 
 import com.example.buyer.user.User;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,13 @@ import java.util.List;
 public class CartService {
 
     private final CartRepository cartRepository;
+    private final EntityManager em;
+
+    // 장바구니 삭제하기
+    @Transactional
+    public void deleteCart (Integer id){
+        cartRepository.deleteCart(id);
+    }
 
     // 장바구니 중복 체크 및 수량 업데이트해서 담기
     @Transactional

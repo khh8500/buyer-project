@@ -16,6 +16,40 @@ public class CartRepository {
 
     private final EntityManager em;
 
+    // 장바구니 삭제하기
+    public void deleteCart(Integer id) {
+
+        String q = """
+                delete from Cart c where c.id = :id
+                """;
+
+        Query query = em.createQuery(q);
+
+        query.setParameter("id", id);
+
+        query.executeUpdate();
+    }
+
+    // 장바구니 아이디 조회하기
+//    public Cart findById(Integer cartId) {
+//        try {
+//            String q = """
+//                    select c from Cart c where c.id = :cartId
+//                    """;
+//
+//            Query query = em.createQuery(q, Cart.class);
+//
+//            query.setParameter("cartId", cartId);
+//
+//            Cart cart = (Cart) query.getSingleResult();
+//            return cart;
+//
+//        } catch (NoResultException e) {
+//            return null;
+//        }
+//    }
+
+
     // 장바구니 중복 체크 및 수량 업데이트해서 담기
     public Cart updateCartItemQty(CartRequest.SaveDTO reqDTO, Integer sessionUserId) {
 
