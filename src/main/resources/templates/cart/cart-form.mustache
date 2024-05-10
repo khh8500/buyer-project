@@ -110,12 +110,12 @@
                     <strong id="totalSum" class="sum">0</strong>
                 </div>
 
-                <form action="" method="get">
-
-                    <input type="hidden" name="cartId" value="">
-                    <div class="notVisible"></div>
-                    <input type="hidden" name="buyQty" value="">
-
+                <form action="/order-form" method="get">
+                    {{#cartList}}
+                        <input type="hidden" name="cartId" value="{{id}}">
+                        <div class="notVisible">{{product.id}}</div>
+                        <input type="hidden" name="buyQty" value="{{buyQty}}">
+                    {{/cartList}}
                     <button type="submit" id="purchaseButton" class="btn btn-primary">구매하기</button>
                 </form>
             </li>

@@ -17,6 +17,13 @@ public class OrderController {
     private final OrderService orderService;
     private final HttpSession session;
 
+    // 구매하기 폼
+    @GetMapping("/order-form")
+    public String orderForm(){
+
+        return "order/order-form";
+    }
+
     // 구매 취소하기
     @PostMapping("/order/cancel")
     public String orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId){
