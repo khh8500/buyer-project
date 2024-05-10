@@ -58,10 +58,10 @@
         </style>
 
         {{#cartList}}
-            <tr class="offer-table my-offer-list" id="cart-id">
+            <tr class="offer-table my-offer-list" id="cart-{{id}}">
                 <td>
                     <div class="notVisible"></div>
-                    <input type="checkbox" name="itemCheck" id="itemCheck" class="item-checkbox">
+                    <input type="checkbox" name="itemCheck" class="item-checkbox" data-cart-id="{{id}}">
                 </td>
                 <td>
                     <img src="/images/{{product.pic}}" width="100"
@@ -85,47 +85,21 @@
         {{/cartList}}
         </tbody>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                // 전체 선택/해제 체크박스 요소
-                let checkAllCheckbox = document.getElementById("checkAll");
-
-                // 전체 선택/해제 체크박스 클릭 이벤트
-                checkAllCheckbox.addEventListener("click", function () {
-                    // 체크박스 상태 가져오기
-                    let isChecked = checkAllCheckbox.checked;
-
-                    // 모든 아이템 체크박스 요소 가져오기
-                    let itemCheckboxes = document.querySelectorAll(".item-checkbox");
-
-                    // 모든 아이템 체크박스의 상태 변경
-                    itemCheckboxes.forEach(function (checkbox) {
-                        checkbox.checked = isChecked;
-                    });
-
-                    // 합계 계산
-                    calculateTotalSum();
-                });
-
-                // 개별 체크박스 클릭 이벤트
-                let itemCheckboxes = document.querySelectorAll(".item-checkbox");
-                itemCheckboxes.forEach(function (checkbox) {
-                    checkbox.addEventListener("click", function () {
-                        // 합계 다시 계산
-                        calculateTotalSum();
-                    });
-                });
-            });
-        </script>
-
         <!--        상품 테이블 끝-->
 
     </table>
 
     <br>
 
+    <!--선택한 상품 삭제 버튼-->
+    <div class="container">
+        <button id="deleteSelectedItemsBtn" class="btn btn-danger">선택한 상품 삭제</button>
+    </div>
+
+    <br>
+
     <!-- 내가 담은 목록 -->
+
     <div class="summary-list" style="width: 30%;">
         <!-- 목록 리스트 1-->
         <ul class="list-group mb-3">
@@ -135,23 +109,6 @@
                     <span style="padding-right: 40px;">합계 (원)</span>
                     <strong id="totalSum" class="sum">0</strong>
                 </div>
-                <script>
-                    function calculateTotalSum() {
-                        let sum = 0;
-
-                        // 모든 체크된 상품의 가격 합산
-                        let checkedItems = document.querySelectorAll('.item-checkbox:checked');
-                        checkedItems.forEach(function (checkbox) {
-                            let row = checkbox.closest('.my-offer-list');
-                            let price = parseInt(row.querySelector('.price').innerText);
-                            let quantity = parseInt(row.querySelector('.buyQty input').value);
-                            sum += price * quantity;
-                        });
-
-                        // 총합을 합계를 표시하는 요소에 업데이트
-                        document.getElementById('totalSum').innerText = sum;
-                    }
-                </script>
 
                 <form action="" method="get">
 
@@ -159,13 +116,114 @@
                     <div class="notVisible"></div>
                     <input type="hidden" name="buyQty" value="">
 
-                    <button type="submit" class="btn btn-primary">구매하기</button>
+                    <button type="submit" id="purchaseButton" class="btn btn-primary">구매하기</button>
                 </form>
             </li>
         </ul>
     </div>
     <!-- 내가 담은 목록 끝 -->
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 삭제 버튼 클릭 이벤트 핸들러 등록
+            document.getElementById("deleteSelectedItemsBtn").addEventListener("click", function () {
+                // 선택한 상품 삭제하는 로직 작성
+                deleteSelectedItems();
+            });
+
+            // 전체 선택/해제 체크박스 요소
+            let checkAllCheckbox = document.getElementById("checkAll");
+
+            // 전체 선택/해제 체크박스 클릭 이벤트
+            checkAllCheckbox.addEventListener("click", function () {
+                // 체크박스 상태 가져오기
+                let isChecked = checkAllCheckbox.checked;
+
+                // 모든 아이템 체크박스 요소 가져오기
+                let itemCheckboxes = document.querySelectorAll(".item-checkbox");
+
+                // 모든 아이템 체크박스의 상태 변경
+                itemCheckboxes.forEach(function (checkbox) {
+                    checkbox.checked = isChecked;
+                });
+
+                // 합계 계산
+                calculateTotalSum();
+            });
+
+            // 개별 체크박스 클릭 이벤트
+            let itemCheckboxes = document.querySelectorAll(".item-checkbox");
+            itemCheckboxes.forEach(function (checkbox) {
+                checkbox.addEventListener("click", function () {
+                    // 합계 다시 계산
+                    calculateTotalSum();
+                });
+            });
+
+            // 수량 변경 이벤트
+            let buyQtyInputs = document.querySelectorAll(".buyQty-change");
+            buyQtyInputs.forEach(function (input) {
+                input.addEventListener("keyup", function () {
+                    // 합계 다시 계산
+                    calculateTotalSum();
+                });
+            });
+
+            // 페이지 로드 시 합계 계산
+            calculateTotalSum();
+        });
+
+        // 선택한 상품 삭제하는 함수
+        function deleteSelectedItems() {
+            // 선택한 항목의 ID 가져오기
+            let selectedIds = [];
+            document.querySelectorAll('.item-checkbox:checked').forEach(function (checkbox) {
+                let row = checkbox.closest('.my-offer-list');
+                let id = row.id.split('-')[1]; // cart-1 형태에서 ID 부분만 추출
+                selectedIds.push(id);
+            });
+
+            // AJAX 요청 보내기
+            if (selectedIds.length > 0) {
+                fetch('/deleteSelectedItems', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ids: selectedIds
+                    })
+                })
+                        .then(response => {
+                            if (response.ok) {
+                                // 성공적으로 삭제된 경우 페이지 새로고침
+                                window.location.reload();
+                            } else {
+                                // 오류 처리
+                                console.error('Failed to delete items');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+            }
+        }
+
+        // 합계 계산 함수
+        function calculateTotalSum() {
+            let sum = 0;
+
+            // 모든 체크된 상품의 가격 합산
+            let checkedItems = document.querySelectorAll('.item-checkbox:checked');
+            checkedItems.forEach(function (checkbox) {
+                let row = checkbox.closest('.my-offer-list');
+                let price = parseInt(row.querySelector('.price').innerText.replace(/,/g, ''), 10); // 콤마 제거 후 숫자로 변환
+                let quantity = parseInt(row.querySelector('.buyQty-change').value, 10);
+                sum += price * quantity;
+            });
+
+            // 총합을 합계를 표시하는 요소에 업데이트
+            document.getElementById('totalSum').innerText = sum.toLocaleString(); // 콤마 추가해서 표시
+        }
+    </script>
 
 </div>
 
