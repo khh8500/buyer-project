@@ -17,16 +17,28 @@ public class CartController {
     private final CartService cartService;
     private final HttpSession session;
 
-    // 장바구니 담기
+    // 장바구니 중복 체크 및 수량 업데이트해서 담기
     @PostMapping("/cart")
     public String cart(CartRequest.SaveDTO reqDTO){
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-        System.out.println("???reqDTO = " + reqDTO);
-        cartService.saveCart(reqDTO, sessionUser);
+        Integer sessionUserId = sessionUser.getId();
+
+        Cart cart = cartService.updateCartItemQty(reqDTO, sessionUserId);
 
         return "redirect:/cart-form";
     }
+
+    // 장바구니 담기
+//    @PostMapping("/cart")
+//    public String cart(CartRequest.SaveDTO reqDTO){
+//
+//        User sessionUser = (User) session.getAttribute("sessionUser");
+//        System.out.println("???reqDTO = " + reqDTO);
+//        cartService.saveCart(reqDTO, sessionUser);
+//
+//        return "redirect:/cart-form";
+//    }
 
     @GetMapping("/cart-form")
     public String cartForm(HttpServletRequest request){
