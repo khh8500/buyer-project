@@ -17,7 +17,7 @@ public class CartService {
 
     // 장바구니 삭제하기
     @Transactional
-    public void deleteCart (Integer id){
+    public void deleteCart (List<Integer> id){
         cartRepository.deleteCart(id);
     }
 

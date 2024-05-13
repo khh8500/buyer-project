@@ -1,5 +1,8 @@
 package com.example.buyer.order;
 
+import com.example.buyer.cart.CartService;
+import com.example.buyer.product.Product;
+import com.example.buyer.product.ProductService;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,26 +19,53 @@ public class OrderController {
 
     private final OrderService orderService;
     private final HttpSession session;
+    private final ProductService productService;
 
     // 구매하기 폼
     @GetMapping("/order-form")
-    public String orderForm(){
+    public String orderForm() {
 
         return "order/order-form";
     }
 
     // 구매 취소하기
     @PostMapping("/order/cancel")
-    public String orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId){
+    public String orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId) {
 
         orderService.orderCancel(reqDTO, orderId);
 
         return "redirect:/order/list";
     }
 
+//    // 장바구니 구매 폼
+//    @GetMapping("/order/cart-form")
+//    public String cartForm(HttpServletRequest request) {
+//
+//        User sessionUser = (User) session.getAttribute("sessionUser");
+//
+//        OrderRequest.SaveDTO reqDTO = new OrderRequest.SaveDTO();
+//        orderService.saveOrder(reqDTO, sessionUser);
+//
+//        request.setAttribute("reqDTO", reqDTO);
+//
+//        return "redirect:/order/list";
+//    }
+
+    // 장바구니 구매하기
+    @PostMapping("/cart/order")
+    public String buyCart(List<Integer> cartItemIds, HttpSession session) {
+        // 세션에서 사용자 정보 가져오기
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        // 장바구니 서비스 호출
+        orderService.buyCart(cartItemIds, sessionUser);
+
+        return "redirect:/order/list";
+    }
+
     // 주문하기(구매하기)   //save
     @PostMapping("/order")
-    public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpSession session){
+    public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
         System.out.println("!!!!!" + reqDTO);
@@ -43,7 +73,7 @@ public class OrderController {
         // 주문 정보에 사용자 ID 설정
 //        reqDTO.setUserId(sessionUser.getId());
 //
-//        // 주문 서비스 호출
+        // 주문 서비스 호출
         orderService.saveOrder(reqDTO, sessionUser);
         System.out.println("????" + reqDTO);
         return "redirect:/order/list";
@@ -64,7 +94,7 @@ public class OrderController {
 
     // 주문 목록보기
     @GetMapping("/order/list")
-    public String OrderList(HttpServletRequest request){
+    public String OrderList(HttpServletRequest request) {
         // 세션에서 현재 사용자의 ID 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
 

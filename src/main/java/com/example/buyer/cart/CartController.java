@@ -20,18 +20,9 @@ public class CartController {
     private final CartService cartService;
     private final HttpSession session;
 
-//    // 장바구니 선택한 상품 삭제하기
-//    @PostMapping("/deleteSelectedItems")
-//    public String deleteSelectedItems(@RequestBody List<Integer> ids) {
-//        for (Integer id : ids) {
-//            cartService.deleteCart(id);
-//        }
-//        return "redirect:/cart-form";
-//    }
-
     // 장바구니 삭제하기
     @PostMapping("/cart/{id}/delete")
-    public String cartDelete(@PathVariable Integer id) {
+    public String cartDelete(@PathVariable List<Integer> id) {
         cartService.deleteCart(id);
 
         return "redirect:/cart-form";

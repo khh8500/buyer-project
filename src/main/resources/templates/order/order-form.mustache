@@ -20,14 +20,14 @@
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
-                                    <input style="font-weight: bold" type="text" class="form-control" id="pName"
-                                           name="pName" value="reqDTO.pName" readonly>
+                                    <input style="font-weight: bold" type="text" class="form-control" id="name"
+                                           name="name" value="{{product.name}}" readonly>
                                     <input type="text" class="form-control" id="buyQty" name="buyQty"
-                                           value="reqDTO.buyQty"
+                                           value="{{reqDTO.buyQty}}"
                                            readonly>
                                 </div>
                                 <input type="text" class="form-control" id="price" name="price"
-                                       value="reqDTO.price"
+                                       value="{{reqDTO.price}}"
                                        readonly>
                             </li>
                             <!--    목록 리스트 1-->
@@ -46,11 +46,34 @@
                             <!--  합계 -->
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>합계 (원)</span>
-                                <strong>reqDTO.product.price</strong>
+                                <strong>0</strong>
                             </li>
                             <!--   합계 -->
                         </ul>
                 </div>
+                <script>
+                    // 합계를 계산하는 함수
+                    function calculateTotal() {
+                        // 주문 상품의 수량과 가격을 가져옴
+                        var buyQty = document.getElementById("buyQty").value;
+                        var price = document.getElementById("price").value;
+
+                        // 수량과 가격을 곱하여 합계를 계산
+                        var total = buyQty * price;
+
+                        // 합계를 화면에 표시
+                        document.getElementById("total").innerText = total;
+                    }
+
+                    // 페이지 로드 시 합계를 계산
+                    window.onload = function () {
+                        calculateTotal();
+                    };
+
+                    // 수량이나 가격이 변경될 때마다 합계를 다시 계산
+                    document.getElementById("buyQty").addEventListener("input", calculateTotal);
+                    document.getElementById("price").addEventListener("input", calculateTotal);
+                </script>
 
                 <!-- 내가 담은 목록 끝 -->
 
@@ -62,15 +85,15 @@
                         <div class="col-md-12">
                             <div class="mb-3 mt-3 form-group">
                                 이름 <input id="name" name="name" type="text" class="form-control"
-                                          value="user.name">
+                                          value="{{user.name}}">
                             </div>
                             <div class="mb-3 mt-3 form-group">
                                 주소 <input id="address" name="address" type="text" class="form-control"
-                                          value="user.address">
+                                          value="{{user.address}}">
                             </div>
                             <div class="mb-3 mt-3 form-group">
                                 전화번호 <input id="phone" name="phone" type="text" class="form-control"
-                                            value=user.phone">
+                                            value="{{user.phone}}">
                             </div>
                         </div>
 

@@ -26,6 +26,8 @@ public class Cart {
 
     private Integer buyQty;
 
+    private boolean status; // false(0) 선택x, true(1) 선택o
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

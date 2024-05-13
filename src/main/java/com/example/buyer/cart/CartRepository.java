@@ -16,8 +16,23 @@ public class CartRepository {
 
     private final EntityManager em;
 
+    // 장바구니 구매 상품 정보 조회
+    public List<Cart> selectBuyCart(List<Integer> cartItemIds) {
+
+        String q = """
+                select c
+                from Cart c
+                join fetch c.product p
+                where c.id in (:cartItemIds)
+                """;
+
+        return em.createQuery(q, Cart.class)
+                .setParameter("cartItemIds", cartItemIds)
+                .getResultList();
+    }
+
     // 장바구니 삭제하기
-    public void deleteCart(Integer id) {
+    public void deleteCart(List<Integer> id) {
 
         String q = """
                 delete from Cart c where c.id = :id

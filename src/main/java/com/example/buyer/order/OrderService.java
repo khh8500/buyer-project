@@ -1,5 +1,7 @@
 package com.example.buyer.order;
 
+import com.example.buyer.cart.Cart;
+import com.example.buyer.cart.CartRepository;
 import com.example.buyer.product.Product;
 import com.example.buyer.product.ProductRepository;
 import com.example.buyer.user.User;
@@ -17,6 +19,24 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final EntityManager em;
+    private final CartRepository cartRepository;
+
+    // 장바구니 구매하기
+    @Transactional
+    public boolean buyCart(List<Integer> cartItemIds, User sessionUser) {
+        // 장바구니에서 선택한 상품을 order로 이동
+        List<Cart> cartItems = cartRepository.selectBuyCart(cartItemIds);
+        for (Cart cartItem : cartItems) {
+            OrderRequest.SaveDTO reqDTO = new OrderRequest.SaveDTO();
+            reqDTO.setProductId(cartItem.getProduct().getId());
+            reqDTO.setBuyQty(cartItem.getBuyQty());
+            boolean saved = saveOrder(reqDTO, sessionUser);
+        }
+        // 장바구니 아이템 삭제
+        cartRepository.deleteCart(cartItemIds);
+
+        return true;
+    }
 
     // 구매 취소하기
     @Transactional
