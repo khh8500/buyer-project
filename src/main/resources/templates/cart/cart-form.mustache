@@ -60,8 +60,8 @@
         {{#cartList}}
             <tr class="offer-table my-offer-list" id="cart-{{id}}">
                 <td>
-                    <div class="notVisible"></div>
-                    <input type="checkbox" name="itemCheck" class="item-checkbox" data-cart-id="{{id}}">
+                    <div class="notVisible">{{id}}</div>
+                    <input type="checkbox" name="itemCheck" class="item-checkbox">
                 </td>
                 <td>
                     <img src="/images/{{product.pic}}" width="100"
@@ -70,7 +70,7 @@
                 <td>{{product.name}}</td>
                 <td class="price">{{product.price}}</td>
                 <td class="buyQty">
-                    <input id="cart-qty-id" name="buyQty" type="number" class="form-control custom-width buyQty-change"
+                    <input id="cart-qty-{{id}}" name="buyQty" type="number" class="form-control custom-width buyQty-change"
                            value="{{buyQty}}" style="margin-bottom: 3%;">
                 </td>
                 <td>
@@ -222,6 +222,22 @@
 
             // 총합을 합계를 표시하는 요소에 업데이트
             document.getElementById('totalSum').innerText = sum.toLocaleString(); // 콤마 추가해서 표시
+
+            // 모든 상품 체크박스 요소들을 가져옵니다.
+            const productCheckboxes = document.querySelectorAll('.item-checkbox');
+
+            // 하나라도 체크된 상품이 있는지 확인합니다.
+            const atLeastOneChecked = Array.from(productCheckboxes).some(function (checkbox) {
+                return checkbox.checked;
+            });
+
+            // 선택된 체크박스가 없으면 "구매하기" 버튼을 비활성화합니다.
+            const purchaseButton = document.getElementById('purchaseButton');
+            if (atLeastOneChecked) {
+                purchaseButton.removeAttribute('disabled');
+            } else {
+                purchaseButton.setAttribute('disabled', 'disabled');
+            }
         }
     </script>
 

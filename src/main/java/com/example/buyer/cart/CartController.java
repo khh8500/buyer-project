@@ -1,5 +1,6 @@
 package com.example.buyer.cart;
 
+import com.example.buyer.order.OrderService;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -48,17 +49,7 @@ public class CartController {
         return "redirect:/cart-form";
     }
 
-    // 장바구니 담기
-//    @PostMapping("/cart")
-//    public String cart(CartRequest.SaveDTO reqDTO){
-//
-//        User sessionUser = (User) session.getAttribute("sessionUser");
-//        System.out.println("???reqDTO = " + reqDTO);
-//        cartService.saveCart(reqDTO, sessionUser);
-//
-//        return "redirect:/cart-form";
-//    }
-
+    // 장바구니 폼
     @GetMapping("/cart-form")
     public String cartForm(HttpServletRequest request) {
 
