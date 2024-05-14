@@ -1,7 +1,9 @@
 package com.example.buyer.order;
 
+import com.example.buyer.cart.CartResponse;
 import com.example.buyer.cart.CartService;
 import com.example.buyer.product.Product;
+import com.example.buyer.product.ProductResponse;
 import com.example.buyer.product.ProductService;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,10 +22,20 @@ public class OrderController {
     private final OrderService orderService;
     private final HttpSession session;
     private final ProductService productService;
+    private final CartService cartService;
 
     // 구매하기 폼
     @GetMapping("/order-form")
-    public String orderForm() {
+    public String orderForm(HttpServletRequest request) {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        ProductResponse.DetailDTO product = productService.findById(sessionUser.getId());
+        List<CartResponse.SaveDTO> cartList = cartService.findAll(sessionUser.getId());
+        System.out.println("product = " + product);
+        System.out.println("cartList = " + cartList);
+        request.setAttribute("product", product);
+        request.setAttribute("cartList", cartList);
 
         return "order/order-form";
     }
@@ -60,23 +72,27 @@ public class OrderController {
         // 장바구니 서비스 호출
         orderService.buyCart(cartItemIds, sessionUser);
 
-        return "redirect:/order/list";
+        return "order/order-form";
     }
 
     // 주문하기(구매하기)   //save
     @PostMapping("/order")
-    public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpSession session) {
+    public String saveOrder(List<Integer> cartItemIds, OrderRequest.SaveDTO reqDTO, HttpSession session) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
         System.out.println("!!!!!" + reqDTO);
 
-        // 주문 정보에 사용자 ID 설정
-//        reqDTO.setUserId(sessionUser.getId());
-//
-        // 주문 서비스 호출
-        orderService.saveOrder(reqDTO, sessionUser);
-        System.out.println("????" + reqDTO);
-        return "redirect:/order/list";
+        if (cartItemIds != null && !cartItemIds.isEmpty()) {
+            // 장바구니를 통한 주문인 경우
+            orderService.buyCart(cartItemIds, sessionUser);
+        } else {
+            // 바로 주문인 경우
+            // 주문 정보에 사용자 ID 설정
+            // reqDTO.setUserId(sessionUser.getId());
+            // 주문 서비스 호출
+            orderService.saveOrder(reqDTO, sessionUser);
+        }
+        return "order/order-form";
     }
 
 //    // 주문하기(구매하기) 폼
