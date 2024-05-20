@@ -1,5 +1,6 @@
 package com.example.buyer.cart;
 
+import com.example.buyer.product.Product;
 import lombok.Data;
 
 public class CartRequest {
@@ -15,7 +16,7 @@ public class CartRequest {
     // 장바구니 담기
     @Data
     public static class SaveDTO {
-        private Integer productId;
+        private Product productId;
         private Integer buyQty;
     }
 

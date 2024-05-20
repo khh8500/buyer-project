@@ -32,11 +32,12 @@ public class Cart {
     private LocalDateTime createdAt;
 
     @Builder
-    public Cart(Integer id, Product product, Integer userId, Integer buyQty, LocalDateTime createdAt) {
+    public Cart(Integer id, Product product, Integer userId, Integer buyQty, boolean status, LocalDateTime createdAt) {
         this.id = id;
         this.product = product;
         this.userId = userId;
         this.buyQty = buyQty;
+        this.status = status;
         this.createdAt = createdAt;
     }
 

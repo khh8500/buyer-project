@@ -1,7 +1,5 @@
 package com.example.buyer.cart;
 
-import com.example.buyer.product.Product;
-import com.example.buyer.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
@@ -64,47 +62,56 @@ public class CartRepository {
 //        }
 //    }
 
+    // 새로운 장바구니 항목 저장
+    public void saveCart(CartRequest.SaveDTO reqDTO, Integer sessionUserId) {
+        em.persist(reqDTO);
+    }
 
-    // 장바구니 중복 체크 및 수량 업데이트해서 담기
-    public Cart updateCartItemQty(CartRequest.SaveDTO reqDTO, Integer sessionUserId) {
+    // 기존 장바구니 항목 업데이트
+    public void updateCart(CartRequest.SaveDTO reqDTO) {
+        em.merge(reqDTO);
+    }
 
-        // 중복 체크 쿼리
+    // 장바구니 중복 체크
+    public Cart findCart(Integer productId, Integer sessionUserId) {
+
+        try {
+            // 중복 체크 쿼리
+            String q = """
+                    select c from Cart c
+                    where c.product.id = :productId
+                    and c.userId = :userId
+                    """;
+
+            Query query = em.createQuery(q, Cart.class);
+
+            query.setParameter("productId", productId);
+            query.setParameter("userId", sessionUserId);
+
+            Cart cart = (Cart) query.getSingleResult();
+            return cart;
+
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    // 장바구니에 있으면 수량 업데이트
+    public void updateBuyQty(CartRequest.SaveDTO reqDTO) {
         String q = """
-                select c from Cart c
-                where c.product.id = :productId
-                and c.userId = :userId
+                update Cart c set c.buyQty = c.buyQty + :buyQty where c.product.id = :productId
                 """;
 
         Query query = em.createQuery(q, Cart.class);
 
+        query.setParameter("buyQty", reqDTO.getBuyQty());
         query.setParameter("productId", reqDTO.getProductId());
-        query.setParameter("userId", sessionUserId);
 
-        List<Cart> cartItems = query.getResultList(); // 중복된 장바구니 항목들 가져오기
-
-        Cart cartItem = null;
-        try {
-            cartItem = (Cart) query.getSingleResult();
-            // 장바구니에 이미 있는 상품인 경우 수량을 업데이트
-            cartItem.setBuyQty(cartItem.getBuyQty() + reqDTO.getBuyQty());
-            em.merge(cartItem); // 업데이트된 장바구니 항목 저장
-        } catch (NoResultException e) {
-            // 장바구니에 없는 상품인 경우 새로 등록
-            // 새로운 Cart 객체 생성 및 설정
-            Product product = em.find(Product.class, reqDTO.getProductId());
-            User user = em.find(User.class, sessionUserId);
-            cartItem = Cart.builder()
-                    .product(product)
-                    .userId(sessionUserId)
-                    .buyQty(reqDTO.getBuyQty())
-                    .build();
-            em.persist(cartItem); // 새로운 장바구니 항목 저장
-        }
-
-        return cartItem;
+        query.executeUpdate();
     }
 
-    // 장바구니 담기
+
+//     장바구니 담기
 //    public void saveCart(CartRequest.SaveDTO reqDTO, int sessionUserId){
 //
 //        String q = """

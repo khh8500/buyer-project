@@ -1,6 +1,5 @@
 package com.example.buyer.cart;
 
-import com.example.buyer.order.OrderService;
 import com.example.buyer.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class CartController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         Integer sessionUserId = sessionUser.getId();
 
-        Cart cart = cartService.updateCartItemQty(reqDTO, sessionUserId);
+        cartService.updateCartItemQty(reqDTO, sessionUserId);
 
         return "redirect:/cart-form";
     }
