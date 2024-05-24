@@ -10,9 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data // getter, setter, toString
 @NoArgsConstructor
-@Getter
-@Setter
 @Table(name = "product_tb")
 @Entity
 public class Product {

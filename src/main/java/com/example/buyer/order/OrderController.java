@@ -1,5 +1,6 @@
 package com.example.buyer.order;
 
+import com.example.buyer.cart.Cart;
 import com.example.buyer.cart.CartResponse;
 import com.example.buyer.cart.CartService;
 import com.example.buyer.product.Product;
@@ -31,7 +32,7 @@ public class OrderController {
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         ProductResponse.DetailDTO product = productService.findById(sessionUser.getId());
-        List<CartResponse.SaveDTO> cartList = cartService.findAll(sessionUser.getId());
+        List<Cart> cartList = cartService.findAll(sessionUser.getId());
         System.out.println("product = " + product);
         System.out.println("cartList = " + cartList);
         request.setAttribute("product", product);

@@ -21,7 +21,7 @@ public class User {
     private Integer id;
 
     @Column(unique = true, length = 10, nullable = false)
-    private String userId;
+    private String username; // TODO: 전부 userId를 username으로 변경하자.
 
     @Column(nullable = false)
     private String password;
@@ -42,9 +42,9 @@ public class User {
     private Timestamp createdAt;
 
     @Builder
-    public User(Integer id, String userId, String password, String name, String phone, String address, Timestamp createdAt) {
+    public User(Integer id, String username, String password, String name, String phone, String address, Timestamp createdAt) {
         this.id = id;
-        this.userId = userId;
+        this.username = username;
         this.password = password;
         this.name = name;
         this.phone = phone;

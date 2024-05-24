@@ -43,8 +43,8 @@ public class CartController {
     public String cartForm(HttpServletRequest request) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-        List<CartResponse.SaveDTO> cartList = cartService.findAll(sessionUser.getId());
-        System.out.println("cartList = " + cartList);
+        List<Cart> cartList = cartService.findAll(sessionUser.getId());
+        //System.out.println("cartList = " + cartList);
         request.setAttribute("cartList", cartList);
 
         return "cart/cart-form";

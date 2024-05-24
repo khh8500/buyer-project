@@ -43,7 +43,7 @@ public class CartService {
 //    }
 
     // 장바구니 조회
-    public List<CartResponse.SaveDTO> findAll(int sessionUserId) {
+    public List<Cart> findAll(int sessionUserId) {
         return cartRepository.findByUserId(sessionUserId);
     }
 

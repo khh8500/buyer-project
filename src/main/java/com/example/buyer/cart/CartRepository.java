@@ -128,16 +128,18 @@ public class CartRepository {
 //    }
 
     // 장바구니 조회
-    public List<CartResponse.SaveDTO> findByUserId(int sessionUserId) {
+    public List<Cart> findByUserId(int sessionUserId) {
 
         String q = """
-                select c from Cart c where c.userId=:id order by c.id desc
+                select c from Cart c where c.user.id =:id order by c.id desc
                 """;
 
         Query query = em.createQuery(q, Cart.class);
         query.setParameter("id", sessionUserId);
 
-        return query.getResultList();
+        List<Cart> cartList = (List<Cart>) query.getResultList();
+
+        return cartList;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.buyer.cart;
 
 import com.example.buyer.product.Product;
+import com.example.buyer.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,8 @@ public class Cart {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user; //
 
     private Integer buyQty;
 
@@ -32,10 +34,10 @@ public class Cart {
     private LocalDateTime createdAt;
 
     @Builder
-    public Cart(Integer id, Product product, Integer userId, Integer buyQty, boolean status, LocalDateTime createdAt) {
+    public Cart(Integer id, Product product, User user, Integer buyQty, boolean status, LocalDateTime createdAt) {
         this.id = id;
         this.product = product;
-        this.userId = userId;
+        this.user = user;
         this.buyQty = buyQty;
         this.status = status;
         this.createdAt = createdAt;
@@ -46,7 +48,7 @@ public class Cart {
         return "Cart{" +
                 "id=" + id +
                 ", product=" + product.getName() + product.getPrice() +// 또는 다른 원하는 필드
-                ", userId=" + userId +
+                ", user=" + user +
                 ", buyQty=" + buyQty +
                 ", createdAt=" + createdAt +
                 '}';

@@ -6,13 +6,13 @@ public class UserRequest {
 
     @Data
     public static class LoginDTO {
-        private String userId;
+        private String username;
         private String password;
     }
 
     @Data
     public static class JoinDTO {
-        private String userId;
+        private String username;
         private String password;
         private String name;
         private String phone;
@@ -20,7 +20,7 @@ public class UserRequest {
 
         public User toEntity() {
             return User.builder()
-                    .userId(userId)
+                    .username(username)
                     .password(password)
                     .name(name)
                     .phone(phone)

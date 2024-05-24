@@ -1,0 +1,27 @@
+server:
+  port: 8090
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+    session:
+      tracking-modes: cookie
+
+spring:
+  mustache:
+    servlet:
+      expose-session-attributes: true
+      expose-request-attributes: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/store?serverTimezone=UTC&characterEncoding=utf-8
+    username: root
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
