@@ -66,7 +66,7 @@ public class OrderController {
 
     // 장바구니 구매하기
     @PostMapping("/cart/order")
-    public String buyCart(List<Integer> cartItemIds, HttpSession session) {
+    public String buyCart(List<Integer> cartItemIds) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
 
@@ -78,21 +78,13 @@ public class OrderController {
 
     // 주문하기(구매하기)   //save
     @PostMapping("/order")
-    public String saveOrder(List<Integer> cartItemIds, OrderRequest.SaveDTO reqDTO, HttpSession session) {
+    public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpServletRequest request) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
-        System.out.println("!!!!!" + reqDTO);
 
-        if (cartItemIds != null && !cartItemIds.isEmpty()) {
-            // 장바구니를 통한 주문인 경우
-            orderService.buyCart(cartItemIds, sessionUser);
-        } else {
-            // 바로 주문인 경우
-            // 주문 정보에 사용자 ID 설정
-            // reqDTO.setUserId(sessionUser.getId());
-            // 주문 서비스 호출
-            orderService.saveOrder(reqDTO, sessionUser);
-        }
+        orderService.saveOrder(reqDTO, sessionUser);
+        request.setAttribute("product", reqDTO);
+
         return "order/order-form";
     }
 
@@ -117,7 +109,6 @@ public class OrderController {
 
         // 주문 목록 가져오기
         List<OrderResponse.ListDTO> orderList = orderService.getOrderListByUserId(sessionUser.getId());
-        System.out.println("orderList = " + orderList);
 
         // 모델에 주문 목록 추가
         request.setAttribute("orderList", orderList);

@@ -6,12 +6,13 @@ import com.example.buyer.product.Product;
 import com.example.buyer.product.ProductRepository;
 import com.example.buyer.user.User;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class OrderService {

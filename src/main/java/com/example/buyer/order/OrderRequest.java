@@ -16,8 +16,8 @@ public class OrderRequest {
     @Data
     public static class SaveDTO {
         private Integer productId;
-        private String name; // 안받아도 됐음
-        private Integer price; // 안받아도 됐음
+//        private String name; // 안받아도 됐음
+//        private Integer price; // 안받아도 됐음
         private Integer buyQty;
         private String status;
     }
