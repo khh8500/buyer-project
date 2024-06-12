@@ -15,7 +15,7 @@ public class ProductRepository {
 
     // 상품 상세보기
     public Product findById(Integer id) {
-        Query query = em.createQuery("select p from Product p where id=:id", Product.class);
+        Query query = em.createQuery("select p from Product p where p.id=:id", Product.class);
         query.setParameter("id", id);
         return (Product) query.getSingleResult();
     }

@@ -28,7 +28,7 @@ public class OrderService {
         // 장바구니에서 선택한 상품을 order로 이동
         List<Cart> cartItems = cartRepository.selectBuyCart(cartItemIds);
         for (Cart cartItem : cartItems) {
-            OrderRequest.SaveDTO reqDTO = new OrderRequest.SaveDTO();
+            OrderRequest.SaveDTO reqDTO = new OrderRequest.SaveDTO(Order.builder().build());
             reqDTO.setProductId(cartItem.getProduct().getId());
             reqDTO.setBuyQty(cartItem.getBuyQty());
             boolean saved = saveOrder(reqDTO, sessionUser);
@@ -52,6 +52,12 @@ public class OrderService {
         // 구매 상태 업데이트
         orderRepository.updateOrderStatus(orderId, "취소완료");
 
+    }
+
+    // 구매하기
+    public OrderRequest.SaveDTO findOrderById (Integer orderId, User sessionUser) {
+        Order order = orderRepository.findOrderById(orderId);
+        return new OrderRequest.SaveDTO(order);
     }
 
     // 구매하기

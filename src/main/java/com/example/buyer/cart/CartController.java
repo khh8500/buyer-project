@@ -27,13 +27,23 @@ public class CartController {
     }
 
     // 장바구니 중복 체크 및 수량 업데이트해서 담기
-    @PostMapping("/cart")
-    public String cart(CartRequest.SaveDTO reqDTO) {
+    @PostMapping("/cart/{id}/update")
+    public String cartUpdate(CartRequest.SaveDTO reqDTO) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-        Integer sessionUserId = sessionUser.getId();
 
-        cartService.updateCartItemQty(reqDTO, sessionUserId);
+        cartService.updateCartItemQty(reqDTO, sessionUser);
+
+        return "redirect:/cart-form";
+    }
+
+    // 장바구니 담기
+    @PostMapping("/cart")
+    public String cartSave(CartRequest.SaveDTO reqDTO) {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        cartService.saveCart(reqDTO, sessionUser);
 
         return "redirect:/cart-form";
     }
@@ -43,8 +53,7 @@ public class CartController {
     public String cartForm(HttpServletRequest request) {
 
         User sessionUser = (User) session.getAttribute("sessionUser");
-        List<Cart> cartList = cartService.findAll(sessionUser.getId());
-        //System.out.println("cartList = " + cartList);
+        List<Cart> cartList = cartService.findAll(sessionUser);
         request.setAttribute("cartList", cartList);
 
         return "cart/cart-form";

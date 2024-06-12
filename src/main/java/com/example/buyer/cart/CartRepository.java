@@ -1,5 +1,6 @@
 package com.example.buyer.cart;
 
+import com.example.buyer.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
@@ -63,7 +64,7 @@ public class CartRepository {
 //    }
 
     // 새로운 장바구니 항목 저장
-    public void saveCart(CartRequest.SaveDTO reqDTO, Integer sessionUserId) {
+    public void saveCart(CartRequest.SaveDTO reqDTO, User sessionUser) {
         em.persist(reqDTO);
     }
 
@@ -73,20 +74,20 @@ public class CartRepository {
     }
 
     // 장바구니 중복 체크
-    public Cart findCart(Integer productId, Integer sessionUserId) {
+    public Cart findCart(Integer productId, User sessionUser) {
 
         try {
             // 중복 체크 쿼리
             String q = """
                     select c from Cart c
                     where c.product.id = :productId
-                    and c.userId = :userId
+                    and c.user.id = :userId
                     """;
 
             Query query = em.createQuery(q, Cart.class);
 
             query.setParameter("productId", productId);
-            query.setParameter("userId", sessionUserId);
+            query.setParameter("userId", sessionUser);
 
             Cart cart = (Cart) query.getSingleResult();
             return cart;
@@ -105,7 +106,7 @@ public class CartRepository {
         Query query = em.createQuery(q, Cart.class);
 
         query.setParameter("buyQty", reqDTO.getBuyQty());
-        query.setParameter("productId", reqDTO.getProductId());
+        query.setParameter("productId", reqDTO.getProduct());
 
         query.executeUpdate();
     }
@@ -128,14 +129,14 @@ public class CartRepository {
 //    }
 
     // 장바구니 조회
-    public List<Cart> findByUserId(int sessionUserId) {
+    public List<Cart> findByUserId(User sessionUser) {
 
         String q = """
                 select c from Cart c where c.user.id =:id order by c.id desc
                 """;
 
         Query query = em.createQuery(q, Cart.class);
-        query.setParameter("id", sessionUserId);
+        query.setParameter("id", sessionUser);
 
         List<Cart> cartList = (List<Cart>) query.getResultList();
 

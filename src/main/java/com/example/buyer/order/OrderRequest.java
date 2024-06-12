@@ -20,6 +20,12 @@ public class OrderRequest {
 //        private Integer price; // 안받아도 됐음
         private Integer buyQty;
         private String status;
+
+        public SaveDTO(Order order) {
+            this.productId = order.getProduct().getId();;
+            this.buyQty = order.getBuyQty();
+            this.status = order.getStatus();
+        }
     }
 
 }

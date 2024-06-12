@@ -57,6 +57,19 @@ public class OrderRepository {
         query.executeUpdate();
     }
 
+    // 구매 정보
+    public Order findOrderById(Integer orderId) {
+
+        String q = """
+                select o from Order o where o.id = :orderId
+                """;
+        Query query = em.createQuery(q, Order.class);
+
+        query.setParameter("orderId", orderId);
+
+        return (Order) query.getSingleResult();
+    }
+
     // 주문하기(구매하기)
     public void saveOrder(OrderRequest.SaveDTO reqDTO, int sessionUserId) {
         String q = """
@@ -87,17 +100,17 @@ public class OrderRepository {
     }
 
     // 유저 정보 가져오기
-    public User findUserById(Integer userId) {
-
-        String q = """
-                select u from User u where u.id = :id
-                """;
-        Query query = em.createQuery(q);
-        query.setParameter("id", userId);
-        User user = (User) query.getSingleResult();
-
-        return user;
-    }
+//    public User findUserById(Integer userId) {
+//
+//        String q = """
+//                select u from User u where u.id = :id
+//                """;
+//        Query query = em.createQuery(q);
+//        query.setParameter("id", userId);
+//        User user = (User) query.getSingleResult();
+//
+//        return user;
+//    }
 
     // 주문 목록 보기
     public List<Order> getOrderListByUserId(Integer userId) {

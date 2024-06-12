@@ -25,22 +25,6 @@ public class OrderController {
     private final ProductService productService;
     private final CartService cartService;
 
-    // 구매하기 폼
-    @GetMapping("/order-form")
-    public String orderForm(HttpServletRequest request) {
-
-        User sessionUser = (User) session.getAttribute("sessionUser");
-
-        ProductResponse.DetailDTO product = productService.findById(sessionUser.getId());
-        List<Cart> cartList = cartService.findAll(sessionUser.getId());
-        System.out.println("product = " + product);
-        System.out.println("cartList = " + cartList);
-        request.setAttribute("product", product);
-        request.setAttribute("cartList", cartList);
-
-        return "order/order-form";
-    }
-
     // 구매 취소하기
     @PostMapping("/order/cancel")
     public String orderCancel(OrderRequest.CancelDTO reqDTO, Integer orderId) {
@@ -76,16 +60,38 @@ public class OrderController {
         return "order/order-form";
     }
 
+    // 구매하기 폼
+    @PostMapping("/order-form")
+    public String orderForm(OrderRequest.SaveDTO reqDTO, Integer orderId, HttpServletRequest request) {
+
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        // 상품 상세 정보 가져오기
+        ProductResponse.DetailDTO product = productService.findById(reqDTO.getProductId());
+        // 주문 상세 정보 조회
+        OrderRequest.SaveDTO order = orderService.findOrderById(orderId, sessionUser);
+
+        request.setAttribute("product", product);
+        request.setAttribute("order", order);
+
+        return "order/order-form";
+    }
+
     // 주문하기(구매하기)   //save
-    @PostMapping("/order")
+    @GetMapping("/order")
     public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpServletRequest request) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
 
-        orderService.saveOrder(reqDTO, sessionUser);
-        request.setAttribute("product", reqDTO);
+        // 상품 상세 정보 가져오기
+        ProductResponse.DetailDTO product = productService.findById(reqDTO.getProductId());
 
-        return "order/order-form";
+        // 주문 저장
+        orderService.saveOrder(reqDTO, sessionUser);
+
+        request.setAttribute("product", product);
+
+        return "order/list";
     }
 
 //    // 주문하기(구매하기) 폼
