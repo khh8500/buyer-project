@@ -62,17 +62,20 @@ public class OrderController {
 
     // 구매하기 폼
     @PostMapping("/order-form")
-    public String orderForm(OrderRequest.SaveDTO reqDTO, Integer orderId, HttpServletRequest request) {
+    public String orderForm(OrderRequest.SaveDTO reqDTO, HttpServletRequest request) {
 
-        User sessionUser = (User) session.getAttribute("sessionUser");
+        //User sessionUser = (User) session.getAttribute("sessionUser");
 
         // 상품 상세 정보 가져오기
         ProductResponse.DetailDTO product = productService.findById(reqDTO.getProductId());
         // 주문 상세 정보 조회
-        OrderRequest.SaveDTO order = orderService.findOrderById(orderId, sessionUser);
+        OrderRequest.SaveDTO orderDTO = OrderRequest.SaveDTO.builder()
+                                                .productId(reqDTO.getProductId())
+                                                .buyQty(reqDTO.getBuyQty())
+                                                .build();
 
         request.setAttribute("product", product);
-        request.setAttribute("order", order);
+        request.setAttribute("orderDTO", orderDTO);
 
         return "order/order-form";
     }
