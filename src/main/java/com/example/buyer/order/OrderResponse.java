@@ -1,5 +1,6 @@
 package com.example.buyer.order;
 
+import com.example.buyer.product.Product;
 import lombok.Data;
 
 public class OrderResponse {

@@ -64,11 +64,11 @@ public class OrderService {
     @Transactional
     public boolean saveOrder(OrderRequest.SaveDTO reqDTO, User sessionUser) {
         // 상품 재고 확인
-        Product product = productRepository.findById(reqDTO.getProductId());
-        if (product == null || product.getQty() < reqDTO.getBuyQty()) {
-            // 상품이 없거나 재고가 충분하지 않은 경우
-            return false;
-        }
+//        Product product = productRepository.findById(reqDTO.getProductId());
+//        if (product == null || product.getQty() < reqDTO.getBuyQty()) {
+//            // 상품이 없거나 재고가 충분하지 않은 경우
+//            return false;
+//        }
 
         // 구매 완료 시 상태를 '구매완료"
          reqDTO.setStatus("구매완료");

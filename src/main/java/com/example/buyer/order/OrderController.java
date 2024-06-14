@@ -81,20 +81,20 @@ public class OrderController {
     }
 
     // 주문하기(구매하기)   //save
-    @GetMapping("/order")
+    @PostMapping("/order")
     public String saveOrder(OrderRequest.SaveDTO reqDTO, HttpServletRequest request) {
         // 세션에서 사용자 정보 가져오기
         User sessionUser = (User) session.getAttribute("sessionUser");
 
         // 상품 상세 정보 가져오기
-        ProductResponse.DetailDTO product = productService.findById(reqDTO.getProductId());
+//        ProductResponse.DetailDTO product = productService.findById(reqDTO.getProductId());
 
         // 주문 저장
         orderService.saveOrder(reqDTO, sessionUser);
 
-        request.setAttribute("product", product);
+//        request.setAttribute("product", product);
 
-        return "order/list";
+        return "redirect:/order/list";
     }
 
 //    // 주문하기(구매하기) 폼

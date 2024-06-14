@@ -17,25 +17,22 @@ public class OrderRequest {
 
     // 주문하기(구매하기)
     @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class SaveDTO {
         private Integer productId;
-//        private String name; // 안받아도 됐음
+        //        private String name; // 안받아도 됐음
 //        private Integer price; // 안받아도 됐음
         private Integer buyQty;
         private String status;
 
         // Order 객체를 받아서 초기화하는 생성자
         public SaveDTO(Order order) {
-            this.productId = order.getProduct().getId();;
+            this.productId = order.getProduct().getId();
+            ;
             this.buyQty = order.getBuyQty();
             this.status = order.getStatus();
         }
     }
 
-}
 
 // 주문하기(구매하기)
 //    @Data
@@ -57,3 +54,15 @@ public class OrderRequest {
 //                    .build();
 //        }
 //    }
+
+    @Data
+    public static class OrderSaveDTO {
+
+
+        // product
+        private Integer productId;
+
+        // order
+        private Integer buyQty;
+    }
+}

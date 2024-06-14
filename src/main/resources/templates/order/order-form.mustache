@@ -24,15 +24,18 @@
                                            type="text" class="form-control" id="name"
                                            name="name" value="{{product.name}}" readonly>
 
-                                    <input type="text" class="form-control" id="buyQty" name="buyQty"
-                                               value="{{orderDTO.buyQty}}개"
-                                               readonly style="flex: 1 1 30%; min-width: 0; margin-right: 8px;">
+                                    <div class="input-group" style="flex: 1 1 30%;">
+                                        <input type="text" class="form-control" id="buyQty" name="buyQty"
+                                               value="{{orderDTO.buyQty}}" readonly>
+                                        <span class="unit">개</span>
+                                    </div>
 
-                                    <input type="text" class="form-control" id="price" name="price"
-                                           value="{{product.price}}원"
-                                           readonly style="flex: 3 1 40%; min-width: 0; overflow-wrap: break-word;">
+                                    <div class="input-group" style="flex: 3 1 40%; min-width: 0;">
+                                        <input type="text" class="form-control" id="price" name="price"
+                                               value="{{product.price}}" readonly>
+                                        <span class="unit">원</span>
+                                    </div>
                                 </div>
-
                             </li>
                             <!--    목록 리스트 1-->
 

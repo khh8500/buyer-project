@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 
 @JsonIgnoreProperties({"product", "user"})
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Table(name = "order_tb")
 @Entity
 public class Order {
