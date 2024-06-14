@@ -50,7 +50,7 @@
                             <!--  합계 -->
                             <li class="list-group-item d-flex justify-content-between">
                                 <span>합계 (원)</span>
-                                <strong>0</strong>
+                                <strong id="total">0</strong>
                             </li>
                             <!--   합계 -->
                         </ul>
@@ -58,26 +58,30 @@
                 <script>
                     // 합계를 계산하는 함수
                     function calculateTotal() {
-                        let total = 0;
                         // 주문 상품의 수량과 가격을 가져옴
                         let buyQty = document.getElementById("buyQty").value;
                         let price = document.getElementById("price").value;
 
-                        // 수량과 가격을 곱하여 합계를 계산
-                        let total = buyQty * price;
+                        // 수량과 가격을 숫자로 변환, 타입을 처음부터 숫자로 했더니 뷰에 뜨지 않음
+                        let qty = parseFloat(buyQty) || 0;
+                        let pricePerItem = parseFloat(price) || 0;
 
-                        // 합계를 화면에 표시
-                        document.getElementById("total").innerText = total;
+                        // 수량과 가격을 곱하여 합계를 계산
+                        let total = qty * pricePerItem;
+
+                        // 합계를 정수로 변환하여 화면에 표시
+                        document.getElementById("total").textContent = Math.floor(total);
                     }
 
-                    // 페이지 로드 시 합계를 계산
+                    // 페이지 로드 시 합계를 계산하고 이벤트 리스너를 추가
                     window.onload = function () {
+                        // 초기 합계 계산
                         calculateTotal();
-                    };
 
-                    // 수량이나 가격이 변경될 때마다 합계를 다시 계산
-                    document.getElementById("buyQty").addEventListener("input", calculateTotal);
-                    document.getElementById("price").addEventListener("input", calculateTotal);
+                        // 수량이나 가격이 변경될 때마다 합계를 다시 계산
+                        document.getElementById("buyQty").addEventListener("input", calculateTotal);
+                        document.getElementById("price").addEventListener("input", calculateTotal);
+                    };
                 </script>
 
                 <!-- 내가 담은 목록 끝 -->
